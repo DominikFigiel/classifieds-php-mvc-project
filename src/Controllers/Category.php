@@ -25,7 +25,7 @@ class Category extends Controller {
             \Tools\Session::set('error', $data['error']);
         if(isset($data['message']))
             \Tools\Session::set('message', $data['message']);
-        $this->redirect('?controller=Category&action=getAll');
+        $this->redirect('categories/');
     }
     public function delete($id){
         $model=$this->getModel('Category');
@@ -34,14 +34,14 @@ class Category extends Controller {
             \Tools\Session::set('error', $data['error']);
         if(isset($data['message']))
             \Tools\Session::set('message', $data['message']);
-        $this->redirect('?controller=Category&action=getAll');
+        $this->redirect('categories/');
     }
     public function editform($id){
         $model = $this->getModel('Category');
         $data = $model->getOne($id);
         if(isset($data['error'])){
             \Tools\Session::set('error', $data['error']);
-            $this->redirect('?controller=Category&action=getAll');
+            $this->redirect('categories/');
         }
         $view = $this->getView('Category');
         $view->editform($data['categories'][0]);
@@ -53,7 +53,7 @@ class Category extends Controller {
             \Tools\Session::set('error', $data['error']);
         if(isset($data['message']))
             \Tools\Session::set('message', $data['message']);
-        $this->redirect('?controller=Category&action=getAll');
+        $this->redirect('categories/');
     }
 
 

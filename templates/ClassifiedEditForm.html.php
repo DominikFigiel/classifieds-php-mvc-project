@@ -2,7 +2,7 @@
 
     <?php $categories = $this->get('data')['categories']; ?>
     <h1>Edytuj ogłoszenie</h1>
-    <form action="http://<?php echo $_SERVER['HTTP_HOST']?>/<?php echo \Config\Website\Config::$subdir?>?controller=Classified&action=update" method="post">
+    <form action="http://<?php echo $_SERVER['HTTP_HOST']?>/<?php echo \Config\Website\Config::$subdir?>categories/update/" method="post">
         <input type="hidden" id="id" name="id" value="<?php echo $this->get('id') ?>">
         ID Kategorii:
         <select name="category_id">

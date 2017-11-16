@@ -8,13 +8,13 @@
     <nav>
         <ul>
             <li>
-                <a href="http://<?php echo $_SERVER['HTTP_HOST']?>/<?php echo \Config\Website\Config::$subdir ?>?controller=User&amp;action=getAll">Użytkownicy</a>
+                <a href="http://<?php echo $_SERVER['HTTP_HOST']?>/<?php echo \Config\Website\Config::$subdir ?>users/">Użytkownicy</a>
             </li>
             <li>
-                <a href="http://<?php echo $_SERVER['HTTP_HOST']?>/<?php echo \Config\Website\Config::$subdir ?>?controller=Category&amp;action=getAll">Kategorie</a>
+                <a href="http://<?php echo $_SERVER['HTTP_HOST']?>/<?php echo \Config\Website\Config::$subdir ?>categories/">Kategorie</a>
             </li>
             <li>
-                <a href="http://<?php echo $_SERVER['HTTP_HOST']?>/<?php echo \Config\Website\Config::$subdir ?>?controller=Classified&amp;action=getAll">Ogłoszenia</a>
+                <a href="http://<?php echo $_SERVER['HTTP_HOST']?>/<?php echo \Config\Website\Config::$subdir ?>classifieds/">Ogłoszenia</a>
             </li>
         </ul>
     </nav>
