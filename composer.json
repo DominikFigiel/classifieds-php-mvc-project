@@ -1,0 +1,9 @@
+{
+    "description": "Baza Ogłoszeń",
+    "version": "0.1.0",
+    "autoload": {
+        "psr-4":{
+            "": "src/"
+        }
+    }
+}
