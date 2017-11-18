@@ -16,9 +16,9 @@
             <?php endforeach; ?>
         </select>
         <br />
-        Tytuł: <input type="text" name="title" value="<?php echo $this->get('title') ?>"/><br />
-        Cena: <input type="text" name="price" value="<?php echo $this->get('price') ?>"/><br />
-        Treść: <textarea name="content" rows="7" cols="50"><?php echo $this->get('content') ?></textarea><br />
+        Tytuł: <input type="text" name="title" value="<?php echo $this->get('title') ?>" required /><br />
+        Cena: <input type="text" name="price" value="<?php echo $this->get('price') ?>" required /><br />
+        Treść: <textarea name="content" rows="7" cols="50" required ><?php echo $this->get('content') ?></textarea><br />
         <input type="submit" value="Aktualizuj" />
     </form>
 

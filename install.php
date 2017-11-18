@@ -203,7 +203,7 @@
         $ogloszenia[] = array("1","1","Fiat 500",
             "Sprzedam Fiata 500, 2008 r .Przebieg 100 tyś km !",
             "20000");
-        $ogloszenia[] = array("1","1","Fiat 500",
+        $ogloszenia[] = array("1","1","BMW E46",
             "Sprzedam BMW E46, 2003 r .Przebieg 300 tyś km !",
             "10000");
 

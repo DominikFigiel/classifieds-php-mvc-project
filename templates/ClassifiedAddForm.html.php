@@ -13,7 +13,7 @@
         <br />
         Tytuł: <input type="text" name="title" required /><br />
         Cena: <input type="number" step="0.01" name="price" required /><br />
-        Treść: <textarea name="content" rows="7" cols="50"></textarea><br />
+        Treść: <textarea name="content" rows="7" cols="50" required ></textarea><br />
         <input type="submit" value="Dodaj" />
     </form>
 
