@@ -6,17 +6,22 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 RewriteRule ^categories/?$ index.php?controller=Category [L]
-RewriteRule ^categories/add$ index.php?controller=Category&action=add [L]
-RewriteRule ^categories/add-form?$ index.php?controller=Category&action=addform [L]
+RewriteRule ^categories/add/?$ index.php?controller=Category&action=add [L]
+RewriteRule ^categories/add-form/?$ index.php?controller=Category&action=addform [L]
 RewriteRule ^categories/edit-form/(\d+)/?$ index.php?controller=Category&action=editform&id=$1 [L]
 RewriteRule ^categories/delete/(\d+)/?$ index.php?controller=Category&action=delete&id=$1 [L]
 RewriteRule ^categories/update/?$ index.php?controller=Category&action=update [L]
 
 RewriteRule ^users/?$ index.php?controller=User [L]
-RewriteRule ^users/add$ index.php?controller=User&action=add [L]
-RewriteRule ^users/add-form?$ index.php?controller=User&action=addform [L]
+RewriteRule ^users/add/?$ index.php?controller=User&action=add [L]
+RewriteRule ^users/add-form/?$ index.php?controller=User&action=addform [L]
 RewriteRule ^users/edit-form/(\d+)/?$ index.php?controller=User&action=editform&id=$1 [L]
 RewriteRule ^users/delete/(\d+)/?$ index.php?controller=User&action=delete&id=$1 [L]
 RewriteRule ^users/update/?$ index.php?controller=User&action=update [L]
 
 RewriteRule ^classifieds/?$ index.php?controller=Classified [L]
+RewriteRule ^classifieds/add/?$ index.php?controller=Classified&action=add [L]
+RewriteRule ^classifieds/add-form/?$ index.php?controller=Classified&action=addform [L]
+RewriteRule ^classifieds/edit-form/(\d+)/?$ index.php?controller=Classified&action=editform&id=$1 [L]
+RewriteRule ^classifieds/delete/(\d+)/?$ index.php?controller=Classified&action=delete&id=$1 [L]
+RewriteRule ^classifieds/update/?$ index.php?controller=Classified&action=update [L]

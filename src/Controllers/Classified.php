@@ -29,7 +29,7 @@ class Classified extends Controller {
             \Tools\Session::set('error', $data['error']);
         if(isset($data['message']))
             \Tools\Session::set('message', $data['message']);
-        $this->redirect('?controller=Classified&action=getAll');
+        $this->redirect('classifieds');
     }
 
     public function delete($id){
@@ -39,7 +39,7 @@ class Classified extends Controller {
             \Tools\Session::set('error', $data['error']);
         if(isset($data['message']))
             \Tools\Session::set('message', $data['message']);
-        $this->redirect('?controller=Classified&action=getAll');
+        $this->redirect('classifieds');
     }
 
     public function editform($id)
@@ -61,7 +61,7 @@ class Classified extends Controller {
             \Tools\Session::set('error', $data['error']);
         if(isset($data['message']))
             \Tools\Session::set('message', $data['message']);
-        $this->redirect('?controller=Classified&action=getAll');
+        $this->redirect('classifieds');
     }
 
 
