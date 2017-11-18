@@ -15,7 +15,7 @@
 <strong> <?php echo $this->get('error') ?> </strong>
 <br/><br/>
 <a href="http://<?php echo $_SERVER['HTTP_HOST']?>/
-<?php echo \Config\Website\Config::$subdir?>users/add-form">Dodaj użytkownika</a>
+<?php echo \Config\Website\Config::$subdir?>users/add-form/">Dodaj użytkownika</a>
 
 <?php include 'templates/footer.html.php'; ?>
 

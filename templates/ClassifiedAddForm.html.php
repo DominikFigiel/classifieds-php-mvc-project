@@ -2,7 +2,7 @@
 
     <?php $categories = $this->get('data')['categories']; ?>
     <h1>Dodaj ogłoszenie</h1>
-    <form action="http://<?php echo $_SERVER['HTTP_HOST']?>/<?php echo \Config\Website\Config::$subdir?>classifieds/add" method="post">
+    <form action="http://<?php echo $_SERVER['HTTP_HOST']?>/<?php echo \Config\Website\Config::$subdir?>classifieds/add/" method="post">
         ID Użytkownika: <input type="text" name="user_id" value="1" readonly /><br />
         ID Kategorii:
         <select name="category_id">

@@ -14,7 +14,7 @@
 <strong><?= $this->get('error')?></strong>
 <br/><br/>
 <a href="http://<?php echo $_SERVER['HTTP_HOST']?>/
-<?php echo \Config\Website\Config::$subdir?>categories/add-form">Dodaj kategorię</a>
+<?php echo \Config\Website\Config::$subdir?>categories/add-form/">Dodaj kategorię</a>
 
 
 <?php include 'templates/footer.html.php'; ?>
