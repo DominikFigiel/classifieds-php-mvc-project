@@ -28,7 +28,7 @@ class User extends Controller {
             \Tools\Session::set('error', $data['error']);
         if(isset($data['message']))
             \Tools\Session::set('message', $data['message']);
-        $this->redirect('?controller=User&action=getAll');
+        $this->redirect('users');
     }
 
     public function delete($id){
@@ -38,7 +38,7 @@ class User extends Controller {
             \Tools\Session::set('error', $data['error']);
         if(isset($data['message']))
             \Tools\Session::set('message', $data['message']);
-        $this->redirect('?controller=User&action=getAll');
+        $this->redirect('users');
     }
 
     public function editform($id)
@@ -60,7 +60,7 @@ class User extends Controller {
             \Tools\Session::set('error', $data['error']);
         if(isset($data['message']))
             \Tools\Session::set('message', $data['message']);
-        $this->redirect('?controller=User&action=getAll');
+        $this->redirect('users');
     }
 
 
