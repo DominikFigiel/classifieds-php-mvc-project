@@ -228,7 +228,10 @@
         }
 
 
-        echo "<b>Instalacja aplikacji zakończona!</b>"
+        echo "<b>Instalacja aplikacji zakończona!</b>";
+
+        // przekierowanie do index.php po instalacji
+        header('location: '.'http://'.$_SERVER["SERVER_NAME"].'/'.\Config\Website\Config::$subdir.'index.php');
 
         ?>
     </body>
