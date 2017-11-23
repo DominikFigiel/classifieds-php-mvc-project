@@ -38,32 +38,39 @@
             return $categories;
         }
 
+        //model zwraca wybraną kategorię
         public function getOne($id){
-            if($this->pdo === null){
-                $data['error'] = \Config\Database\DBErrorName::$connection;
-                return $data;
-            }
-            if($id === null){
-                $data['error'] = \Config\Database\DBErrorName::$nomatch;
-                return data;
-            }
             $data = array();
-            $data['categories'] = array();
-            try{
-                $stmt = $this->pdo->prepare('SELECT * FROM `'.\Config\Database\DBConfig::$tableCategory.'` WHERE `'.\Config\Database\DBConfig\Category::$id.'`=:id');
-                $stmt -> bindValue(':id', $id, PDO::PARAM_INT);
-                $result = $stmt->execute();
-                $categories = $stmt->fetchAll();
-                $stmt->closeCursor();
-                if($categories && !empty($categories))
-                    $data['categories'] = $categories;
-                else
-                    $data['error'] = \Config\Database\DBErrorName::$nomatch;
-            }
-            catch(\PDOException $e){
-                var_dump($e);
-                $data['error'] = \Config\Database\DBErrorName::$query;
-            }
+            if($id === NULL)
+                $data['error'] = 'Nieokreślone id!';
+            else if(!$this->pdo)
+                $data['error'] = 'Połączenie z bazą nie powidoło się!';
+            else
+                try
+                {
+                    $stmt = $this->pdo->prepare('SELECT * FROM `'.\Config\Database\DBConfig::$tableCategory.'` WHERE `'.\Config\Database\DBConfig\Category::$id.'`=:id');
+                    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+                    $result = $stmt->execute();
+                    while($row = $stmt -> fetch())
+                    {
+                        $category[$row['id']] = $row['name'];
+                    }
+                    $stmt->closeCursor();
+                    //czy istnieje kategoria o padanym id
+                    if($result && $category && !empty($category)){
+                        $data['categories'] = $category;
+                    }
+                    else
+                    {
+                        //$data['category'] = array();
+                        $data['error'] = "Brak kategorii o id=$id!";
+                    }
+
+                }
+                catch(\PDOException $e)
+                {
+                    $data['error'] = 'Błąd odczytu danych z bazy!';
+                }
             return $data;
         }
 

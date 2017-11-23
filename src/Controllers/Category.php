@@ -19,6 +19,19 @@ class Category extends Controller {
             $this->redirect('errors/404.html');
     }
 
+    public function edit($id=null){
+        if($id !== null)
+        {
+            $view=$this->getView('Category');
+            if($view)
+                $view->edit($id);
+            else
+                $this->redirect('errors/404.html');
+        }
+        else
+            $this->redirect('categories/');
+    }
+
     //dodaje do bazy kategorię
     public function insert() {
         //za operację na bazie danych odpowiedzialny jest model
@@ -48,14 +61,19 @@ class Category extends Controller {
     }
 
     public function delete($id){
-        $model=$this->getModel('Category');
-        $data = $model->delete($id);
-        if(isset($data['error']))
-            \Tools\Session::set('error', $data['error']);
-        if(isset($data['message']))
-            \Tools\Session::set('message', $data['message']);
+        if($id !== null)
+        {
+            //za operację na bazie danych odpowiedzialny jest model
+            //tworzymy obiekt modelu i zlecamy usunięcie kategorii
+            $model=$this->getModel('Category');
+            if($model)
+                $model->delete($id);
+            else
+                $this->redirect('errors/404.html');
+        }
         $this->redirect('categories/');
     }
+
     public function editform($id){
         $model = $this->getModel('Category');
         $data = $model->getOne($id);

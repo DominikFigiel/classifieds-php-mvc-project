@@ -7,7 +7,7 @@
 <ul>
     {foreach $allCats as $id => $name}
     <li>{$name}
-        <a href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/showone/{$id}">szczegóły</a>
+        <a href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/edit/{$id}">edycja</a>
         <a href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/delete/{$id}">usuń</a>
     </li>
     {/foreach}

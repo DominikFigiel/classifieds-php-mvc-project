@@ -12,6 +12,7 @@ RewriteRule ^categories/edit-form/(\d+)/?$ index.php?controller=Category&action=
 RewriteRule ^categories/delete/(\d+)/?$ index.php?controller=Category&action=delete&id=$1 [L]
 RewriteRule ^categories/update/?$ index.php?controller=Category&action=update [L]
 RewriteRule ^categories/insert/?$ index.php?controller=Category&action=insert [L]
+RewriteRule ^categories/edit/(\d+)/?$ index.php?controller=Category&action=edit&id=$1 [L]
 
 RewriteRule ^users/?$ index.php?controller=User [L]
 RewriteRule ^users/add/?$ index.php?controller=User&action=add [L]

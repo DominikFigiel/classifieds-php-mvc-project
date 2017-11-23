@@ -31,6 +31,22 @@ class Category extends View {
         $this->render('AddCategory');
     }
 
+    //wyświetlenie widoku z wybraną kategorią do edycji
+    public function edit($id){
+        //pobranie wybranej kategorii
+        $model = $this->getModel('Category');
+        if($model) {
+            $data = $model->getOne($id);
+            if(isset($data['categories']))
+                $this->set('oneCat', $data['categories']);
+            if(isset($data['error']))
+                $this->set('error', $data['error']);
+            $this->render('EditCategory');
+            return true;
+        }
+        return false;
+    }
+
     public function addform(){
         //$this->set('customScript', array('jquery.validate.min', 'CategoryAddForm'));
         $this->render('CategoryAddForm');
