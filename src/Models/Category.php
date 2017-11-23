@@ -11,11 +11,17 @@
             $data = array();
             $data['categories'] = array();
             try{
+                $categories = array();
                 $stmt = $this->pdo->query('SELECT * FROM `'.\Config\Database\DBConfig::$tableCategory.'`');
-                $categories = $stmt->fetchAll();
+                while($row = $stmt -> fetch())
+                {
+                    $categories[$row['id']] = $row['name'];
+                }
                 $stmt->closeCursor();
                 if($categories && !empty($categories))
                     $data['categories'] = $categories;
+                else
+                    $data['categories'] = array();
             }
             catch(\PDOException $e){
                 $data['error'] = \Config\Database\DBErrorName::$query;

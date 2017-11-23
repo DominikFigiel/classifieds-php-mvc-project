@@ -3,6 +3,14 @@ namespace Controllers;
 
 class Category extends Controller {
 
+    public function index(){
+        //tworzy obiekt widoku i zleca wyświetlenie
+        //wszystkich kategorii w widoku
+        $view = $this->getView('Category');
+        if(!$view || !$view->index())
+            $this->redirect('errors/404.html');
+    }
+
     public function getAll(){
         $view = $this->getView('Category');
         $data = null;

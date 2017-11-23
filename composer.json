@@ -1,6 +1,9 @@
 {
     "description": "Baza Ogłoszeń",
     "version": "0.1.0",
+    "require": {
+        "smarty/smarty": "3.*"
+    },
     "autoload": {
         "psr-4":{
             "": "src/"
