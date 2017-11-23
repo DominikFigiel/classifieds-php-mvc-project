@@ -11,6 +11,26 @@ class Category extends Controller {
             $this->redirect('errors/404.html');
     }
 
+    public function add() {
+        $view=$this->getView('Category');
+        if($view)
+            $view->add();
+        else
+            $this->redirect('errors/404.html');
+    }
+
+    //dodaje do bazy kategorię
+    public function insert() {
+        //za operację na bazie danych odpowiedzialny jest model
+        //tworzymy obiekt modelu i zlecamy dodanie kategorii
+        $model=$this->getModel('Category');
+        if($model){
+            $model->insert($_POST['name']);
+            $this->redirect('categories/');
+        } else
+            $this->redirect('errors/404.html');
+    }
+
     public function getAll(){
         $view = $this->getView('Category');
         $data = null;
@@ -26,15 +46,7 @@ class Category extends Controller {
         $view = $this->getView('Category');
         $view->addform();
     }
-    public function add(){
-        $model=$this->getModel('Category');
-        $data = $model->add($_POST['name']);
-        if(isset($data['error']))
-            \Tools\Session::set('error', $data['error']);
-        if(isset($data['message']))
-            \Tools\Session::set('message', $data['message']);
-        $this->redirect('categories/');
-    }
+
     public function delete($id){
         $model=$this->getModel('Category');
         $data = $model->delete($id);

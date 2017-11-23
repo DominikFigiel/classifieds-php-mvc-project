@@ -7,8 +7,8 @@
 <ul>
     {foreach $allCats as $id => $name}
     <li>{$name}
-        <a href="http://{$smarty.server.HTTP_HOST}{$subdir}Categories/showone/{$id}">szczegóły</a>
-        <a href="http://{$smarty.server.HTTP_HOST}{$subdir}Categories/delete/{$id}">usuń</a>
+        <a href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/showone/{$id}">szczegóły</a>
+        <a href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/delete/{$id}">usuń</a>
     </li>
     {/foreach}
 </ul>
@@ -17,5 +17,5 @@
 {if isset($error)}
 <strong>{$error}</strong>
 {/if}
-<a href="http://{$smarty.server.HTTP_HOST}{$subdir}Categories/add">Dodaj kategorię</a>
+<a href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/add">Dodaj kategorię</a>
 {include file="footer.html.php"}

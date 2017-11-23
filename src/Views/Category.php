@@ -25,6 +25,12 @@ class Category extends View {
         }
         return false;
     }
+
+    //wyświetlenie widoku z formularzem do dodawania kategorii
+    public function add(){
+        $this->render('AddCategory');
+    }
+
     public function addform(){
         //$this->set('customScript', array('jquery.validate.min', 'CategoryAddForm'));
         $this->render('CategoryAddForm');

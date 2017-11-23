@@ -67,32 +67,28 @@
             return $data;
         }
 
-        public function add($name){
-            if($this->pdo === null){
-                $data['error'] = \Config\Database\DBErrorName::$connection;
-                return $data;
-            }
-            if($name === null){
-                $data['error'] = \Config\Database\DBErrorName::$empty;
-                return $data;
-            }
+        //model dodaje wybraną kategorię
+        public function insert($name) {
             $data = array();
-            try	{
-                $stmt = $this->pdo->prepare('INSERT INTO `'.\Config\Database\DBConfig::$tableCategory.'` (`'.\Config\Database\DBConfig\Category::$name.'`) VALUES (:name)');
-
-                $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-                $result = $stmt->execute();
-                if(!$result)
+            if($name === NULL || $name === "")
+                $data['error'] = \Config\Database\DBErrorName::$empty;
+            else if(!$this->pdo)
+                $data['error'] = \Config\Database\DBErrorName::$connection;
+            else
+                try
+                {
+                    $stmt = $this->pdo->prepare('INSERT INTO `'.\Config\Database\DBConfig::$tableCategory.'` (`'.\Config\Database\DBConfig\Category::$name.'`) VALUES (:name)');
+                    $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+                    $stmt->execute();
+                    $stmt->closeCursor();
+                }
+                catch(\PDOException $e)
+                {
                     $data['error'] = \Config\Database\DBErrorName::$noadd;
-                else
-                    $data['message'] = \Config\Database\DBMessageName::$addok;
-                $stmt->closeCursor();
-            }
-            catch(\PDOException $e)	{
-                $data['error'] = \Config\Database\DBErrorName::$query;
-            }
+                }
             return $data;
         }
+
         public function delete($id){
             $data = array();
             if($this->pdo === null){
