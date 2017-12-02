@@ -3,6 +3,14 @@ namespace Controllers;
 
 class Classified extends Controller {
 
+    public function index(){
+        //tworzy obiekt widoku i zleca wyświetlenie
+        //wszystkich użytkowników w widoku
+        $view = $this->getView('Classified');
+        if(!$view || !$view->index())
+            $this->redirect('errors/404.html');
+    }
+
     public function getAll()
     {
         $view = $this->getView('Classified');

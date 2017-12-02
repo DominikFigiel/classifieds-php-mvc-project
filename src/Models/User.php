@@ -54,7 +54,7 @@
             return $data;
         }
 
-        public function add($name, $surname, $login, $password){
+        public function insert($name, $surname, $login, $password){
             if($this->pdo === null){
                 $data['error'] = \Config\Database\DBErrorName::$connection;
                 return $data;

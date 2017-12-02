@@ -8,13 +8,13 @@
 <nav>
     <ul>
         <li>
-            <a href="http://{$smarty.server.HTTP_HOST}{$subdir}Users">Lista użytkowników</a>
+            <a href="http://{$smarty.server.HTTP_HOST}{$subdir}users">Lista użytkowników</a>
         </li>
         <li>
-            <a href="http://{$smarty.server.HTTP_HOST}{$subdir}Categories">Lista kategorii</a>
+            <a href="http://{$smarty.server.HTTP_HOST}{$subdir}categories">Lista kategorii</a>
         </li>
         <li>
-            <a href="http://{$smarty.server.HTTP_HOST}{$subdir}Products">Lista produktów</a>
+            <a href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds">Lista ogłoszeń</a>
         </li>
     </ul>
 </nav>

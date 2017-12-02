@@ -3,6 +3,21 @@ namespace Views;
 
 class Classified extends View{
 
+    public function index(){
+        //pobranie z modelu listy użytkowników
+        $model = $this->getModel('Classified');
+        if($model) {
+            $data = $model->getAll();
+            if(isset($data['classifieds']))
+                $this->set('allClassifieds', $data['classifieds']);
+            if(isset($data['error']))
+                $this->set('error', $data['error']);
+            $this->render('Classifieds');
+            return true;
+        }
+        return false;
+    }
+
     public function getAll($data = null){
         if(isset($data['message']))
             $this->set('message',$data['message']);

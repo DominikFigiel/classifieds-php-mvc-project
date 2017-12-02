@@ -20,6 +20,8 @@ RewriteRule ^users/add-form/?$ index.php?controller=User&action=addform [L]
 RewriteRule ^users/edit-form/(\d+)/?$ index.php?controller=User&action=editform&id=$1 [L]
 RewriteRule ^users/delete/(\d+)/?$ index.php?controller=User&action=delete&id=$1 [L]
 RewriteRule ^users/update/?$ index.php?controller=User&action=update [L]
+RewriteRule ^users/insert/?$ index.php?controller=User&action=insert [L]
+RewriteRule ^users/edit/(\d+)/?$ index.php?controller=User&action=edit&id=$1 [L]
 
 RewriteRule ^classifieds/?$ index.php?controller=Classified [L]
 RewriteRule ^classifieds/add/?$ index.php?controller=Classified&action=add [L]
