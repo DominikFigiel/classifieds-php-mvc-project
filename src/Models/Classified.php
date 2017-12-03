@@ -60,7 +60,8 @@ class Classified extends Model{
         return $data;
     }
 
-    public function add($category_id,$user_id,$title,$content,$price){
+    public function insert($category_id, $user_id, $title, $content, $price)
+    {
         if($this->pdo === null){
             $data['error'] = \Config\Database\DBErrorName::$connection;
             return $data;

@@ -6,9 +6,14 @@
 {else}
 <ul>
     {foreach $allClassifieds as $classified}
-    <li>{$classified['name']} {$classified['login']} {$classified['title']} {$classified['content']} {$classified['price']} {$classified['date']}
-        <a href="http://{$smarty.server.HTTP_HOST}{$subdir}users/edit/{$user['id']}">edycja</a>
-        <a href="http://{$smarty.server.HTTP_HOST}{$subdir}users/delete/{$user['id']}">usuń</a>
+    <li>
+        <strong>{$classified['name']}</strong><br/>
+        {$classified['login']}<br/>
+        {$classified['title']}<br/>
+        {$classified['content']}<br/>
+        {$classified['price']} {$classified['date']}
+        <a href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/edit/{$classified['id']}">edycja</a>
+        <a href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/delete/{$classified['id']}">usuń</a>
     </li>
     {/foreach}
 </ul>
@@ -17,5 +22,5 @@
 {if isset($error)}
 <strong>{$error}</strong>
 {/if}
-<a href="http://{$smarty.server.HTTP_HOST}{$subdir}users/add">Dodaj użytkownika</a>
+<a href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/add">Dodaj ogłoszenie</a>
 {include file="footer.html.php"}

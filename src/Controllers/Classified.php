@@ -30,14 +30,50 @@ class Classified extends Controller {
         $view->addform();
     }
 
-    public function add(){
+    public function add()
+    {
+        $view = $this->getView('Classified');
+        if ($view)
+            $view->add();
+        else
+            $this->redirect('errors/404.html');
+    }
+
+    //dodaje do bazy ogloszenie
+    public function insert()
+    {
+        //za operację na bazie danych odpowiedzialny jest model
+        //tworzymy obiekt modelu i zlecamy dodanie ogloszenia
         $model=$this->getModel('Classified');
-        $data = $model->add($_POST['category_id'],$_POST['user_id'],$_POST['title'],$_POST['content'],$_POST['price']);
+        if ($model) {
+            $model->insert($_POST['category_id'], $_POST['user_id'], $_POST['title'], $_POST['content'], $_POST['price']);
+            $this->redirect('classifieds/');
+        } else
+            $this->redirect('errors/404.html');
+    }
+
+    public function update()
+    {
+        $model = $this->getModel('Classified');
+        $data = $model->update($_POST['id'], $_POST['category_id'], $_POST['title'], $_POST['content'], $_POST['price']);
         if(isset($data['error']))
             \Tools\Session::set('error', $data['error']);
         if(isset($data['message']))
             \Tools\Session::set('message', $data['message']);
         $this->redirect('classifieds/');
+    }
+
+
+    public function edit($id = null)
+    {
+        if ($id !== null) {
+            $view = $this->getView('Classified');
+            if ($view)
+                $view->edit($id);
+            else
+                $this->redirect('errors/404.html');
+        } else
+            $this->redirect('classifieds/');
     }
 
     public function delete($id){
@@ -60,16 +96,6 @@ class Classified extends Controller {
         }
         $view = $this->getView('Classified');
         $view->editform($data['classifieds'][0]);
-    }
-
-    public function update(){
-        $model = $this -> getModel('Classified');
-        $data = $model -> update($_POST['id'],$_POST['category_id'],$_POST['title'],$_POST['content'],$_POST['price']);
-        if(isset($data['error']))
-            \Tools\Session::set('error', $data['error']);
-        if(isset($data['message']))
-            \Tools\Session::set('message', $data['message']);
-        $this->redirect('classifieds/');
     }
 
 

@@ -44,6 +44,17 @@ class Category extends Controller {
             $this->redirect('errors/404.html');
     }
 
+    public function update()
+    {
+        $model = $this->getModel('Category');
+        $data = $model->update($_POST['id'], $_POST['name']);
+        if (isset($data['error']))
+            \Tools\Session::set('error', $data['error']);
+        if (isset($data['message']))
+            \Tools\Session::set('message', $data['message']);
+        $this->redirect('categories/');
+    }
+
     public function getAll(){
         $view = $this->getView('Category');
         $data = null;
@@ -83,15 +94,6 @@ class Category extends Controller {
         }
         $view = $this->getView('Category');
         $view->editform($data['categories'][0]);
-    }
-    public function update(){
-        $model=$this->getModel('Category');
-        $data = $model->update($_POST['id'], $_POST['name']);
-        if(isset($data['error']))
-            \Tools\Session::set('error', $data['error']);
-        if(isset($data['message']))
-            \Tools\Session::set('message', $data['message']);
-        $this->redirect('categories/');
     }
 
 
