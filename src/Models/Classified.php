@@ -1,18 +1,22 @@
 <?php
+
 namespace Models;
+
 use \PDO;
 use Config\Database\DBConfig as DB;
 
-class Classified extends Model{
+class Classified extends Model
+{
 
-    public function getAll(){
-        if($this->pdo === null){
+    public function getAll()
+    {
+        if ($this->pdo === null) {
             $data['error'] = \Config\Database\DBErrorName::$connection;
             return $data;
         }
         $data = array();
         $data['classifieds'] = array();
-        try{
+        try {
             //$stmt = $this->pdo->query('SELECT * FROM `'.DB::$tableClassified.'`');
             $stmt = $this->pdo->
             query('SELECT classified.id, classified.title,classified.content,classified.price,classified.date, category.name , user.login 
@@ -22,38 +26,37 @@ class Classified extends Model{
 
             $classifieds = $stmt->fetchAll();
             $stmt->closeCursor();
-            if($classifieds && !empty($classifieds))
+            if ($classifieds && !empty($classifieds))
                 $data['classifieds'] = $classifieds;
-        }
-        catch(\PDOException $e){
+        } catch (\PDOException $e) {
             $data['error'] = \Config\Database\DBErrorName::$query;
         }
         return $data;
     }
 
-    public function getOne($id){
-        if($this->pdo === null){
+    public function getOne($id)
+    {
+        if ($this->pdo === null) {
             $data['error'] = \Config\Database\DBErrorName::$connection;
             return $data;
         }
-        if($id === null){
+        if ($id === null) {
             $data['error'] = \Config\Database\DBErrorName::$nomatch;
             return data;
         }
         $data = array();
         $data['classifieds'] = array();
-        try{
-            $stmt = $this->pdo->prepare('SELECT * FROM `'.\Config\Database\DBConfig::$tableClassified.'` WHERE `'.\Config\Database\DBConfig\Classified::$id.'`=:id');
-            $stmt -> bindValue(':id', $id, PDO::PARAM_INT);
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM `' . \Config\Database\DBConfig::$tableClassified . '` WHERE `' . \Config\Database\DBConfig\Classified::$id . '`=:id');
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $result = $stmt->execute();
             $classifieds = $stmt->fetchAll();
             $stmt->closeCursor();
-            if($classifieds && !empty($classifieds))
+            if ($classifieds && !empty($classifieds))
                 $data['classifieds'] = $classifieds;
             else
                 $data['error'] = \Config\Database\DBErrorName::$nomatch;
-        }
-        catch(\PDOException $e){
+        } catch (\PDOException $e) {
             var_dump($e);
             $data['error'] = \Config\Database\DBErrorName::$query;
         }
@@ -62,101 +65,75 @@ class Classified extends Model{
 
     public function insert($category_id, $user_id, $title, $content, $price)
     {
-        if($this->pdo === null){
+        if ($this->pdo === null) {
             $data['error'] = \Config\Database\DBErrorName::$connection;
             return $data;
         }
-        if($category_id === null){
+        if ($category_id === null) {
             $data['error'] = \Config\Database\DBErrorName::$empty;
             return $data;
         }
-        if($user_id === null){
+        if ($user_id === null) {
             $data['error'] = \Config\Database\DBErrorName::$empty;
             return $data;
         }
-        if($title === null){
+        if ($title === null) {
             $data['error'] = \Config\Database\DBErrorName::$empty;
             return $data;
         }
-        if($content === null){
+        if ($content === null) {
             $data['error'] = \Config\Database\DBErrorName::$empty;
             return $data;
         }
-        if($price === null){
+        if ($price === null) {
             $data['error'] = \Config\Database\DBErrorName::$empty;
             return $data;
         }
         $data = array();
-        try	{
-            $stmt = $this->pdo ->prepare('INSERT INTO `'.DB::$tableClassified.'` (`'.DB\Classified::$category_id.'`, `'.DB\Classified::$user_id.'`,`'.DB\Classified::$title.'`, `'.DB\Classified::$content.'`, `'.DB\Classified::$price.'`) 
+        try {
+            $stmt = $this->pdo->prepare('INSERT INTO `' . DB::$tableClassified . '` (`' . DB\Classified::$category_id . '`, `' . DB\Classified::$user_id . '`,`' . DB\Classified::$title . '`, `' . DB\Classified::$content . '`, `' . DB\Classified::$price . '`) 
                                                 VALUES (:category_id, :user_id, :title, :content, :price)');
 
-            $stmt -> bindValue(':category_id', $category_id, PDO::PARAM_INT);
-            $stmt -> bindValue(':user_id', $user_id, PDO::PARAM_INT);
-            $stmt -> bindValue(':title', $title, PDO::PARAM_STR);
-            $stmt -> bindValue(':content', $content, PDO::PARAM_STR);
-            $stmt -> bindValue(':price', $price, PDO::PARAM_STR);
+            $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->bindValue(':title', $title, PDO::PARAM_STR);
+            $stmt->bindValue(':content', $content, PDO::PARAM_STR);
+            $stmt->bindValue(':price', $price, PDO::PARAM_STR);
             var_dump($stmt);
             $result = $stmt->execute();
-            if(!$result)
+            if (!$result)
                 $data['error'] = \Config\Database\DBErrorName::$noadd;
             else
                 $data['message'] = \Config\Database\DBMessageName::$addok;
             $stmt->closeCursor();
-        }
-        catch(\PDOException $e)	{
+        } catch (\PDOException $e) {
             $data['error'] = \Config\Database\DBErrorName::$query;
         }
         return $data;
     }
 
-    public function delete($id){
+    public function update($id, $category_id, $title, $content, $price)
+    {
         $data = array();
-        if($this->pdo === null){
+
+        if ($this->pdo === null) {
             $data['error'] = \Config\Database\DBErrorName::$connection;
             return $data;
         }
-        if($id === null){
-            $data['error'] = \Config\Database\DBErrorName::$nomatch;
-            return $data;
-        }
-        try	{
-            $stmt = $this->pdo->prepare('DELETE FROM  `'.\Config\Database\DBConfig::$tableClassified.'` WHERE  `'.\Config\Database\DBConfig\Classified::$id.'`=:id');
-            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-            $result = $stmt->execute();
-            if(!$result)
-                $data['error'] = \Config\Database\DBErrorName::$nomatch;
-            else
-                $data['message'] = \Config\Database\DBMessageName::$deleteok;
-            $stmt->closeCursor();
-        }
-        catch(\PDOException $e)	{
-            $data['error'] = \Config\Database\DBErrorName::$query;
-        }
-        return $data;
-    }
-
-    public function update($id, $category_id,$title,$content,$price){
-        $data = array();
-
-        if($this->pdo === null){
-            $data['error'] = \Config\Database\DBErrorName::$connection;
-            return $data;
-        }
-        if($id === null || $category_id === null
-            || $title === null || $content === null || $price === null ){
+        if ($id === null || $category_id === null
+            || $title === null || $content === null || $price === null) {
             $data['error'] = \Config\Database\DBErrorName::$empty;
             return $data;
         }
-        try	{
+        try {
             $stmt = $this->pdo->prepare(
-                'UPDATE  `'.\Config\Database\DBConfig::$tableClassified.'` SET
-                    `'.\Config\Database\DBConfig\Classified::$category_id.'`=:category_id, 
-                    `'.\Config\Database\DBConfig\Classified::$title.'`=:title,
-                    `'.\Config\Database\DBConfig\Classified::$content.'`=:content,
-                    `'.\Config\Database\DBConfig\Classified::$price.'`=:price
+                'UPDATE  `' . \Config\Database\DBConfig::$tableClassified . '` SET
+                    `' . \Config\Database\DBConfig\Classified::$category_id . '`=:category_id, 
+                    `' . \Config\Database\DBConfig\Classified::$title . '`=:title,
+                    `' . \Config\Database\DBConfig\Classified::$content . '`=:content,
+                    `' . \Config\Database\DBConfig\Classified::$price . '`=:price
                     WHERE `'
-                .\Config\Database\DBConfig\Classified::$id.'`=:id');
+                . \Config\Database\DBConfig\Classified::$id . '`=:id');
             $stmt->bindValue(':id', $id, PDO::PARAM_INT);
             $stmt->bindValue(':category_id', $category_id, PDO::PARAM_INT);
             $stmt->bindValue(':title', $title, PDO::PARAM_STR);
@@ -165,13 +142,38 @@ class Classified extends Model{
 
             $result = $stmt->execute();
             $rows = $stmt->rowCount();
-            if(!$result)
+            if (!$result)
                 $data['error'] = \Config\Database\DBErrorName::$nomatch;
             else
                 $data['message'] = \Config\Database\DBMessageName::$updateok;
             $stmt->closeCursor();
+        } catch (\PDOException $e) {
+            $data['error'] = \Config\Database\DBErrorName::$query;
         }
-        catch(\PDOException $e)	{
+        return $data;
+    }
+
+    public function delete($id)
+    {
+        $data = array();
+        if ($this->pdo === null) {
+            $data['error'] = \Config\Database\DBErrorName::$connection;
+            return $data;
+        }
+        if ($id === null) {
+            $data['error'] = \Config\Database\DBErrorName::$nomatch;
+            return $data;
+        }
+        try {
+            $stmt = $this->pdo->prepare('DELETE FROM  `' . \Config\Database\DBConfig::$tableClassified . '` WHERE  `' . \Config\Database\DBConfig\Classified::$id . '`=:id');
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $result = $stmt->execute();
+            if (!$result)
+                $data['error'] = \Config\Database\DBErrorName::$nomatch;
+            else
+                $data['message'] = \Config\Database\DBMessageName::$deleteok;
+            $stmt->closeCursor();
+        } catch (\PDOException $e) {
             $data['error'] = \Config\Database\DBErrorName::$query;
         }
         return $data;

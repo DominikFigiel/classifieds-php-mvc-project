@@ -1,13 +1,16 @@
 <?php
+
 namespace Controllers;
 
-class Classified extends Controller {
+class Classified extends Controller
+{
 
-    public function index(){
+    public function index()
+    {
         //tworzy obiekt widoku i zleca wyświetlenie
         //wszystkich użytkowników w widoku
         $view = $this->getView('Classified');
-        if(!$view || !$view->index())
+        if (!$view || !$view->index())
             $this->redirect('errors/404.html');
     }
 
@@ -25,7 +28,8 @@ class Classified extends Controller {
         \Tools\Session::clear('error');
     }
 
-    public function addform(){
+    public function addform()
+    {
         $view = $this->getView('Classified');
         $view->addform();
     }
@@ -44,7 +48,7 @@ class Classified extends Controller {
     {
         //za operację na bazie danych odpowiedzialny jest model
         //tworzymy obiekt modelu i zlecamy dodanie ogloszenia
-        $model=$this->getModel('Classified');
+        $model = $this->getModel('Classified');
         if ($model) {
             $model->insert($_POST['category_id'], $_POST['user_id'], $_POST['title'], $_POST['content'], $_POST['price']);
             $this->redirect('classifieds/');
@@ -56,9 +60,9 @@ class Classified extends Controller {
     {
         $model = $this->getModel('Classified');
         $data = $model->update($_POST['id'], $_POST['category_id'], $_POST['title'], $_POST['content'], $_POST['price']);
-        if(isset($data['error']))
+        if (isset($data['error']))
             \Tools\Session::set('error', $data['error']);
-        if(isset($data['message']))
+        if (isset($data['message']))
             \Tools\Session::set('message', $data['message']);
         $this->redirect('classifieds/');
     }
@@ -76,12 +80,13 @@ class Classified extends Controller {
             $this->redirect('classifieds/');
     }
 
-    public function delete($id){
-        $model=$this->getModel('Classified');
+    public function delete($id)
+    {
+        $model = $this->getModel('Classified');
         $data = $model->delete($id);
-        if(isset($data['error']))
+        if (isset($data['error']))
             \Tools\Session::set('error', $data['error']);
-        if(isset($data['message']))
+        if (isset($data['message']))
             \Tools\Session::set('message', $data['message']);
         $this->redirect('classifieds/');
     }
@@ -90,7 +95,7 @@ class Classified extends Controller {
     {
         $model = $this->getModel('Classified');
         $data = $model->getOne($id);
-        if (isset($data['error'])){
+        if (isset($data['error'])) {
             \Tools\Session::set('error', $data['error']);
             $this->redirect('?controller=Classified&action=getAll');
         }
