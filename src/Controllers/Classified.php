@@ -14,26 +14,6 @@ class Classified extends Controller
             $this->redirect('errors/404.html');
     }
 
-    public function getAll()
-    {
-        $view = $this->getView('Classified');
-        $data = null;
-        if (\Tools\Session::is('message'))
-            $data['message'] = \Tools\Session::get('message');
-        if (\Tools\Session::is('error'))
-            $data['error'] = \Tools\Session::get('error');
-
-        $view->getAll();
-        \Tools\Session::clear('message');
-        \Tools\Session::clear('error');
-    }
-
-    public function addform()
-    {
-        $view = $this->getView('Classified');
-        $view->addform();
-    }
-
     public function add()
     {
         $view = $this->getView('Classified');
@@ -41,6 +21,18 @@ class Classified extends Controller
             $view->add();
         else
             $this->redirect('errors/404.html');
+    }
+
+    public function edit($id = null)
+    {
+        if ($id !== null) {
+            $view = $this->getView('Classified');
+            if ($view)
+                $view->edit($id);
+            else
+                $this->redirect('errors/404.html');
+        } else
+            $this->redirect('classifieds/');
     }
 
     //dodaje do bazy ogloszenie
@@ -67,19 +59,6 @@ class Classified extends Controller
         $this->redirect('classifieds/');
     }
 
-
-    public function edit($id = null)
-    {
-        if ($id !== null) {
-            $view = $this->getView('Classified');
-            if ($view)
-                $view->edit($id);
-            else
-                $this->redirect('errors/404.html');
-        } else
-            $this->redirect('classifieds/');
-    }
-
     public function delete($id)
     {
         $model = $this->getModel('Classified');
@@ -91,17 +70,18 @@ class Classified extends Controller
         $this->redirect('classifieds/');
     }
 
-    public function editform($id)
+    public function getAll()
     {
-        $model = $this->getModel('Classified');
-        $data = $model->getOne($id);
-        if (isset($data['error'])) {
-            \Tools\Session::set('error', $data['error']);
-            $this->redirect('?controller=Classified&action=getAll');
-        }
         $view = $this->getView('Classified');
-        $view->editform($data['classifieds'][0]);
-    }
+        $data = null;
+        if (\Tools\Session::is('message'))
+            $data['message'] = \Tools\Session::get('message');
+        if (\Tools\Session::is('error'))
+            $data['error'] = \Tools\Session::get('error');
 
+        $view->getAll();
+        \Tools\Session::clear('message');
+        \Tools\Session::clear('error');
+    }
 
 }

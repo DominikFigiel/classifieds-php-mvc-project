@@ -59,25 +59,6 @@ class Category extends Controller
         $this->redirect('categories/');
     }
 
-    public function getAll()
-    {
-        $view = $this->getView('Category');
-        $data = null;
-        if (\Tools\Session::is('message'))
-            $data['message'] = \Tools\Session::get('message');
-        if (\Tools\Session::is('error'))
-            $data['error'] = \Tools\Session::get('error');
-        $view->getAll($data);
-        \Tools\Session::clear('message');
-        \Tools\Session::clear('error');
-    }
-
-    public function addform()
-    {
-        $view = $this->getView('Category');
-        $view->addform();
-    }
-
     public function delete($id)
     {
         if ($id !== null) {
@@ -92,17 +73,17 @@ class Category extends Controller
         $this->redirect('categories/');
     }
 
-    public function editform($id)
+    public function getAll()
     {
-        $model = $this->getModel('Category');
-        $data = $model->getOne($id);
-        if (isset($data['error'])) {
-            \Tools\Session::set('error', $data['error']);
-            $this->redirect('categories/');
-        }
         $view = $this->getView('Category');
-        $view->editform($data['categories'][0]);
+        $data = null;
+        if (\Tools\Session::is('message'))
+            $data['message'] = \Tools\Session::get('message');
+        if (\Tools\Session::is('error'))
+            $data['error'] = \Tools\Session::get('error');
+        $view->getAll($data);
+        \Tools\Session::clear('message');
+        \Tools\Session::clear('error');
     }
-
 
 }
