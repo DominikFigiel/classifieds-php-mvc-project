@@ -13,7 +13,7 @@ Config\Database\DBConnection::setDBConnection(
 if(isset($_GET['controller']))
     $controller = $_GET['controller'];
 else
-    $controller = 'Category';
+    $controller = 'Classified';
 if(isset($_GET['action']))
     $action = $_GET['action'];
 else

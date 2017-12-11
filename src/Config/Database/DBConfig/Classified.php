@@ -10,4 +10,5 @@
         public static $content = 'content';
         public static $price = 'price';
         public static $date = 'date';
+        public static $city = 'city';
     }

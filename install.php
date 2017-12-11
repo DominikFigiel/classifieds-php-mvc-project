@@ -69,6 +69,7 @@
             `'.DB\Classified::$content.'` VARCHAR(500) NOT NULL,
             `'.DB\Classified::$price.'` FLOAT NOT NULL,
             `'.DB\Classified::$date.'` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,	
+            `' . DB\Classified::$city . '` VARCHAR(50) NOT NULL,
             PRIMARY KEY ('.DB\Classified::$id.'),
             FOREIGN KEY ('.DB\Classified::$category_id.') REFERENCES '.DB::$tableCategory.'('.DB\Category::$id.') ON DELETE CASCADE,
             FOREIGN KEY ('.DB\Classified::$user_id.') REFERENCES '.DB::$tableUser.'('.DB\User::$id.') ON DELETE CASCADE
@@ -199,19 +200,19 @@
         $ogloszenia = array();
         $ogloszenia[] = array("1","1","Fiat Grande Punto",
             "Sprzedam Fiata Grande Punto 2006 r .Przebieg 139 tyś km .5- drzwiowy. Wersja Giugiaro.",
-            "12900");
+            "12900", "Kalisz");
         $ogloszenia[] = array("1","1","Fiat 500",
             "Sprzedam Fiata 500, 2008 r .Przebieg 100 tyś km !",
-            "20000");
+            "20000", "Kalisz");
         $ogloszenia[] = array("1","1","BMW E46",
             "Sprzedam BMW E46, 2003 r .Przebieg 300 tyś km !",
-            "10000");
+            "10000", "Ostrów Wielkopolski");
 
         try
         {
             $stmt = $pdo ->prepare(
-                'INSERT INTO `'.DB::$tableClassified.'` (`'.DB\Classified::$category_id.'`, `'.DB\Classified::$user_id.'`,`'.DB\Classified::$title.'`,`'.DB\Classified::$content.'`, `'.DB\Classified::$price.'`) 
-            VALUES (:category_id, :user_id, :title, :content, :price)');
+                'INSERT INTO `' . DB::$tableClassified . '` (`' . DB\Classified::$category_id . '`, `' . DB\Classified::$user_id . '`,`' . DB\Classified::$title . '`,`' . DB\Classified::$content . '`, `' . DB\Classified::$price . '`, `' . DB\Classified::$city . '`) 
+            VALUES (:category_id, :user_id, :title, :content, :price, :city)');
             foreach ($ogloszenia as $ogloszenie)
             {
                 $stmt -> bindValue(':category_id', $ogloszenie[0], PDO::PARAM_INT);
@@ -219,6 +220,7 @@
                 $stmt -> bindValue(':title', $ogloszenie[2], PDO::PARAM_STR);
                 $stmt -> bindValue(':content', $ogloszenie[3], PDO::PARAM_STR);
                 $stmt -> bindValue(':price', $ogloszenie[4], PDO::PARAM_STR);
+                $stmt->bindValue(':city', $ogloszenie[5], PDO::PARAM_STR);
                 $stmt -> execute();
             }
         }

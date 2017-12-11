@@ -8,10 +8,44 @@ class Classified extends View
     // wyswietlenie widoku wszystkich ogloszen
     public function index()
     {
+        // pobranie z modelu listy kategorii (dla panelu bocznego z listą kategorii)
+        $model = $this->getModel('Category');
+        if ($model) {
+            $data = $model->getAll();
+            if (isset($data['categories']))
+                $this->set('allCats', $data['categories']);
+        }
+        //
         //pobranie z modelu listy ogloszen
         $model = $this->getModel('Classified');
         if ($model) {
             $data = $model->getAll();
+            if (isset($data['classifieds']))
+                $this->set('allClassifieds', $data['classifieds']);
+            if (isset($data['error']))
+                $this->set('error', $data['error']);
+            $this->render('Classifieds');
+            return true;
+        }
+        return false;
+    }
+
+    public function search($id)
+    {
+        // pobranie z modelu listy kategorii (dla panelu bocznego z listą kategorii)
+        $model = $this->getModel('Category');
+        if ($model) {
+            $data = $model->getAll();
+            if (isset($data['categories'])) {
+                $this->set('allCats', $data['categories']);
+                $this->set('phrase', $id);
+            }
+        }
+        //
+        //pobranie z modelu listy ogloszen
+        $model = $this->getModel('Classified');
+        if ($model) {
+            $data = $model->getSearchResults($id);
             if (isset($data['classifieds']))
                 $this->set('allClassifieds', $data['classifieds']);
             if (isset($data['error']))

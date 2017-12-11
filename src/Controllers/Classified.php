@@ -8,10 +8,29 @@ class Classified extends Controller
     public function index()
     {
         //tworzy obiekt widoku i zleca wyświetlenie
-        //wszystkich użytkowników w widoku
+        //wszystkich ogloszen w widoku
         $view = $this->getView('Classified');
         if (!$view || !$view->index())
             $this->redirect('errors/404.html');
+    }
+
+    public function search()
+    {
+        if ($_POST['id'] != null) {
+            $id = $_POST['id'];
+
+            $view = $this->getView('Classified');
+            if ($view)
+                $view->search($id);
+            else
+                $this->redirect('errors/404.html');
+        } else {
+            $view = $this->getView('Classified');
+            if ($view || $view->index())
+                $view->index();
+            else
+                $this->redirect('errors/404.html');
+        }
     }
 
     public function add()
@@ -42,7 +61,7 @@ class Classified extends Controller
         //tworzymy obiekt modelu i zlecamy dodanie ogloszenia
         $model = $this->getModel('Classified');
         if ($model) {
-            $model->insert($_POST['category_id'], $_POST['user_id'], $_POST['title'], $_POST['content'], $_POST['price']);
+            $model->insert($_POST['category_id'], $_POST['user_id'], $_POST['title'], $_POST['content'], $_POST['price'], $_POST['city']);
             $this->redirect('classifieds/');
         } else
             $this->redirect('errors/404.html');
@@ -51,7 +70,7 @@ class Classified extends Controller
     public function update()
     {
         $model = $this->getModel('Classified');
-        $data = $model->update($_POST['id'], $_POST['category_id'], $_POST['title'], $_POST['content'], $_POST['price']);
+        $data = $model->update($_POST['id'], $_POST['category_id'], $_POST['title'], $_POST['content'], $_POST['price'], $_POST['city']);
         if (isset($data['error']))
             \Tools\Session::set('error', $data['error']);
         if (isset($data['message']))

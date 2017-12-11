@@ -20,6 +20,7 @@ RewriteRule ^users/update/?$ index.php?controller=User&action=update [L]
 RewriteRule ^users/delete/(\d+)/?$ index.php?controller=User&action=delete&id=$1 [L]
 
 RewriteRule ^classifieds/?$ index.php?controller=Classified [L]
+RewriteRule ^classifieds/search/?$ index.php?controller=Classified&action=search [L]
 RewriteRule ^classifieds/add/?$ index.php?controller=Classified&action=add [L]
 RewriteRule ^classifieds/insert/?$ index.php?controller=Classified&action=insert [L]
 RewriteRule ^classifieds/edit/(\d+)/?$ index.php?controller=Classified&action=edit&id=$1 [L]
