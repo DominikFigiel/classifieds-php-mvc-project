@@ -1,3 +1,0 @@
-/*
-kod Java Script
-*/
