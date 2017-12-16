@@ -34,7 +34,7 @@ class Classified extends Model
         return $data;
     }
 
-    public function getSearchResults($id = null)
+    public function getSearchResults($id, $category)
     {
         if ($this->pdo === null) {
             $data['error'] = \Config\Database\DBErrorName::$connection;
@@ -44,12 +44,13 @@ class Classified extends Model
         $data['classifieds'] = array();
 
         if ($id != null) {
+
             try {
                 //$stmt = $this->pdo->query('SELECT * FROM `'.DB::$tableClassified.'`');
                 $polecenie = "SELECT classified.id, classified.title,classified.content,classified.price,classified.date, category.name, classified.city , user.login 
             FROM `classified` 
             INNER JOIN category ON category.id = classified.category_id 
-            INNER JOIN user ON user.id = classified.user_id  WHERE classified.title LIKE '%" . $id . "%'";
+            INNER JOIN user ON user.id = classified.user_id  WHERE classified.title LIKE '%" . $id . "%' OR classified.content LIKE '%" . $id . "%' AND category.name LIKE '%" . $category . "%' ";
                 $stmt = $this->pdo->query($polecenie);
 
                 $classifieds = $stmt->fetchAll();
@@ -59,8 +60,24 @@ class Classified extends Model
             } catch (\PDOException $e) {
                 $data['error'] = \Config\Database\DBErrorName::$query;
             }
-        }
+        } else {
+            try {
+                //$stmt = $this->pdo->query('SELECT * FROM `'.DB::$tableClassified.'`');
+                $polecenie = "SELECT classified.id, classified.title,classified.content,classified.price,classified.date, category.name, classified.city , user.login 
+            FROM `classified` 
+            INNER JOIN category ON category.id = classified.category_id 
+            INNER JOIN user ON user.id = classified.user_id  WHERE category.name LIKE '%" . $category . "%' ";
+                $stmt = $this->pdo->query($polecenie);
 
+                $classifieds = $stmt->fetchAll();
+                $stmt->closeCursor();
+                if ($classifieds && !empty($classifieds))
+                    $data['classifieds'] = $classifieds;
+            } catch (\PDOException $e) {
+                $data['error'] = \Config\Database\DBErrorName::$query;
+            }
+
+        }
         return $data;
     }
 

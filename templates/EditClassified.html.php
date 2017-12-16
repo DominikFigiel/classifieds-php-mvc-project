@@ -3,6 +3,7 @@
 
 {if isset($oneClassified) and $oneClassified|@count === 1}
 {foreach $oneClassified as $classified}
+
 <form id="form" action="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/update" method="post">
         <input type="hidden" name="id" value="{$classified['id']}"/>
         <input type="hidden" name="user_id" value="{$classified['user_id']}" readonly/><br/>
@@ -36,13 +37,39 @@
         <textarea class="form-control" name="content" rows="7" cols="50" required>{$classified['content']}</textarea>
     </div>
     <div class="alert alert-danger collapse" role="alert"></div>
+
     <div class="form-group text-right">
-        <a class="btn btn-danger"
-           href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/delete/{$classified['id']}" role="button">Usuń
-            ogłoszenie</a>
+        <button type="button" class="btn btn-danger"
+                data-href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/delete/{$classified['id']}"
+                data-toggle="modal" data-target="#confirm-delete">
+            Usuń ogłoszenie
+        </button>
+        <input class="btn btn-primary" type="submit" value="Aktualizuj"/>
         <a class="btn btn-secondary" href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/"
            role="button">Powrót</a>
-        <input class="btn btn-primary" type="submit" value="Aktualizuj"/>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Usuwanie ogłoszenia</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>Usunięcie ogłoszenia jest nieodwracalne.</p>
+                    <p>Czy na pewno chcesz usunąć to ogłoszenie ?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Powrót</button>
+                    <a class="btn btn-danger btn-ok">Usuń</a>
+                </div>
+            </div>
+        </div>
     </div>
 
 </form>

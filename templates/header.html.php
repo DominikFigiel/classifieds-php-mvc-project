@@ -11,7 +11,6 @@
 </head>
 <body>
 
-
 <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
     <a class="navbar-brand" href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds">Baza ogłoszeń</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -29,15 +28,9 @@
             </li>
             <li class="nav-item"><a class="nav-link disabled" href="#" disabled>Logowanie</a></li>
             <li class="nav-item"><a class="nav-link disabled" href="#">Rejestracja</a></li>
-            <li class="nav-item"><a class="nav-link" href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/add">Dodaj
-                    ogłoszenie</a></li>
         </ul>
-        <form action="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/search/" method="post"
-              class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" name="id" type="search" placeholder="Szukaj ogłoszeń..."
-                   aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Szukaj</button>
-        </form>
+        <a class="btn btn-primary" href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/add"
+           role="button">Dodaj ogłoszenie</a>
     </div>
 </nav>
 

@@ -16,12 +16,25 @@ class Classified extends Controller
 
     public function search()
     {
-        if ($_POST['id'] != null) {
+        if (isset($_POST['id']) && $_POST['id'] != null) {
             $id = $_POST['id'];
+
+            if (isset($_POST['category']))
+                $category = $_POST['category'];
+            else
+                $category = 0;
 
             $view = $this->getView('Classified');
             if ($view)
-                $view->search($id);
+                $view->search($id, $category);
+            else
+                $this->redirect('errors/404.html');
+        } else if (isset($_POST['category'])) {
+            $id = null;
+            $category = $_POST['category'];
+            $view = $this->getView('Classified');
+            if ($view)
+                $view->search($id, $category);
             else
                 $this->redirect('errors/404.html');
         } else {

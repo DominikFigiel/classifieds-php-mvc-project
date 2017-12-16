@@ -30,7 +30,7 @@ class Classified extends View
         return false;
     }
 
-    public function search($id)
+    public function search($id, $category)
     {
         // pobranie z modelu listy kategorii (dla panelu bocznego z listą kategorii)
         $model = $this->getModel('Category');
@@ -38,14 +38,13 @@ class Classified extends View
             $data = $model->getAll();
             if (isset($data['categories'])) {
                 $this->set('allCats', $data['categories']);
-                $this->set('phrase', $id);
             }
         }
         //
         //pobranie z modelu listy ogloszen
         $model = $this->getModel('Classified');
         if ($model) {
-            $data = $model->getSearchResults($id);
+            $data = $model->getSearchResults($id, $category);
             if (isset($data['classifieds']))
                 $this->set('allClassifieds', $data['classifieds']);
             if (isset($data['error']))
