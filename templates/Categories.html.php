@@ -13,11 +13,8 @@
                 <h4 class="card-title">{$name}</h4>
                 <div class="text-right">
                     <a class="btn btn-primary" href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/edit/{$id}">edycja</a>
-                    <button type="button" class="btn btn-danger"
-                            data-href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/delete/{$id}"
-                            data-toggle="modal" data-target="#confirm-delete">
-                        usuń
-                    </button>
+                    <a class="usun btn btn-danger" data-title="Usuwanie kategorii"
+                       href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/delete/{$id}">usuń</a>
                 </div>
             </div>
         </div>
@@ -25,32 +22,28 @@
     {/foreach}
 </ul>
 
-<!-- Modal -->
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h4 class="modal-title">Usuwanie kategorii</h4>
-            </div>
-
-            <div class="modal-body">
-                <p>Usunięcie kategorii jest nieodwracalne.</p>
-                <p>Czy na pewno chcesz usunąć tę kategorię ?</p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Powrót</button>
-                <a class="btn btn-danger btn-ok">Usuń</a>
-            </div>
-        </div>
-    </div>
-</div>
 {/if}
 {/if}
 {if isset($error)}
 <strong>{$error}</strong>
 {/if}
-<a class="form-control btn btn-primary" href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/add">Dodaj
-    kategorię</a>
+<p>
+    <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
+            data-target="#categoryCollapse" aria-expanded="false" aria-controls="collapseExample">
+        Dodaj
+        kategorię
+    </button>
+</p>
+<div class="collapse" id="categoryCollapse">
+    <form id="form">
+        <div class="form-group">
+            <label>Nazwa kategorii:</label>
+            <input class="form-control" type="text" name="name" minlength="3" placeholder="Wpisz nazwę.."
+                   autofocus/><br/>
+            <input type="hidden" name="serverPath" value="http://{$smarty.server.HTTP_HOST}{$subdir}categories/"/>
+        </div>
+        <div class="alert alert-danger collapse" role="alert"></div>
+        <button class="btn btn-outline-primary btn-block" id="wyslij" type="button">Dodaj</button>
+    </form>
+</div>
 {include file="footer.html.php"}

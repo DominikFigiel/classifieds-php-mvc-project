@@ -4,10 +4,14 @@
 </footer>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
 <script src="http://{$smarty.server.HTTP_HOST}{$subdir}js/jquery-3.2.1.slim.min.js"></script>
+<script src="http://{$smarty.server.HTTP_HOST}{$subdir}js/jquery.min.js"></script>
+<script src="http://{$smarty.server.HTTP_HOST}{$subdir}js/jquery.validate.min.js"></script>
+<script src="http://{$smarty.server.HTTP_HOST}{$subdir}js/jquery-confirm.js"></script>
 <script src="http://{$smarty.server.HTTP_HOST}{$subdir}js/popper.min.js"></script>
 <script src="http://{$smarty.server.HTTP_HOST}{$subdir}js/bootstrap.min.js"></script>
-<script src="http://{$smarty.server.HTTP_HOST}{$subdir}js/jquery.validate.min.js"></script>
 <script src="http://{$smarty.server.HTTP_HOST}{$subdir}js/scripts.js"></script>
+
 </body>
 </html>

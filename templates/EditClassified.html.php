@@ -39,37 +39,11 @@
     <div class="alert alert-danger collapse" role="alert"></div>
 
     <div class="form-group text-right">
-        <button type="button" class="btn btn-danger"
-                data-href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/delete/{$classified['id']}"
-                data-toggle="modal" data-target="#confirm-delete">
-            Usuń ogłoszenie
-        </button>
+        <a class="usun btn btn-danger" data-title="Usuwanie ogłoszenia"
+           href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/delete/{$classified['id']}">Usuń</a>
         <input class="btn btn-primary" type="submit" value="Aktualizuj"/>
         <a class="btn btn-secondary" href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/"
            role="button">Powrót</a>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Usuwanie ogłoszenia</h4>
-                </div>
-
-                <div class="modal-body">
-                    <p>Usunięcie ogłoszenia jest nieodwracalne.</p>
-                    <p>Czy na pewno chcesz usunąć to ogłoszenie ?</p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Powrót</button>
-                    <a class="btn btn-danger btn-ok">Usuń</a>
-                </div>
-            </div>
-        </div>
     </div>
 
 </form>

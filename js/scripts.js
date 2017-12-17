@@ -1,14 +1,237 @@
 $(document).ready(function () {
 
-    // Ogłoszenia - Potwierdzenie usunięcia (Modal)
-    $('#confirm-delete').on('show.bs.modal', function (e) {
-        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+    // Potwierdzenie usunięcia
 
-        $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+    $('a.usun').confirm({
+        content: "Potwierdzasz ?",
+        buttons: {
+            usun: {
+                text: 'Usuń',
+                btnClass: 'btn-danger',
+                action: function (usunButton) {
+                    location.href = this.$target.attr('href');
+                }
+            },
+            anuluj: {}
+        }
     });
 
-    //tutaj wstawiamy kod JQuery, który zostanie uruchomiony
-    //jak tylko dokument będzie gotowy do manipulowania jego elementami
+    /* Wysyłanie danych do bazy */
+    $('#wyslij').click(function () { /* Zdefiniowanie zdarzenia inicjującego- kliknięcie przycisku wyślij */
+
+        // usuwanie wpisanego tekstu po kliknieciu
+        $('input:text').focus(
+            function () {
+                $(this).val('');
+            });
+
+        /*Funkcja pobierająca wartość opcji,
+        która następnie zapisywana jest do zmiennej*/
+        var wartosc = $("input[name='name']").val();
+        var sciezka = $("input[name='serverPath']").val();
+        if (wartosc.length < 3)
+            wartosc = null;
+
+        $.ajax({
+            type: "POST", /*Informacja o tym, że dane będą wysyłane*/
+            url: sciezka + 'insert', /*Informacja, o tym jaki plik będzie przy tym wykorzystywany*/
+            data: {name: wartosc}, /*Zdefiniowanie jakie dane będą wysyłane na zasadzie
+            pary klucz-wartość np: name=NazwaKategorii*/
+
+            /*Działania wykonywane w przypadku sukcesu*/
+            success: function () {
+
+                $.ajax({
+                    type: "GET",
+                    url: sciezka,
+                    dataType: "html",
+                    //pomyślne wysłanie danych do skryptu
+                    success: function (html) {
+                        var ul = $('.list-group').empty();
+                        //pobieramy węzły z dokumentu html
+                        var elementy = $(html).find('.list-group-item');
+
+                        elementy.each(function () {
+                            var content = $(this).html();
+                            var li = '<li class="list-group-item align-items-center">' + content + '</li>';
+                            ul.append(li);
+                        });
+
+                        // jQuery dla nowoutworzonych elementow
+                        $('a.usun').confirm({
+                            content: "Potwierdzasz ?",
+                            buttons: {
+                                usun: {
+                                    text: 'Usuń',
+                                    btnClass: 'btn-danger',
+                                    action: function (usunButton) {
+                                        location.href = this.$target.attr('href');
+                                    }
+                                },
+                                anuluj: {}
+                            }
+                        });
+                    },
+                    //zakończenie połączenia niezależnie od wyniki
+                    //błąd połączenia
+                    error: function (blad) {
+                        //console.log(blad)
+                        $('.alert').show();
+                    }
+                });
+
+            },
+
+            /*Działania wykonywane w przypadku błędu*/
+            error: function (blad) {
+                alert("Wystąpił błąd");
+                console.log(blad);
+                /*Funkcja wyświetlająca informacje
+                                   o ewentualnym błędzie w konsoli przeglądarki*/
+            }
+        });
+
+    });
+
+
+    /* Usuwanie danych z bazy (Nieużywane) */
+    $('.usunKategorie').click(function () { /*Zdefiniowanie zdarzenia inicjującego
+    - kliknięcie przycisku wyślij*/
+
+        /*Funkcja pobierająca wartość opcji z listy,
+        która następnie zapisywana jest do zmiennej*/
+        var wartosc = $("input[name='name']").val();
+        var sciezka = $("input[name='serverPath']").val();
+
+        $.ajax({
+            type: "POST", /*Informacja o tym, że dane będą wysyłane*/
+            url: sciezka + 'delete/' + wartosc, /*Informacja, o tym jaki plik będzie przy tym wykorzystywany*/
+            data: {name: wartosc},
+            /*Działania wykonywane w przypadku sukcesu*/
+            success: function () {
+
+                $.ajax({
+                    type: "GET",
+                    url: sciezka,
+                    dataType: "html",
+                    //pomyślne wysłanie danych do skryptu
+                    success: function (html) {
+                        var ul = $('.list-group').empty();
+                        //pobieramy węzły z dokumentu html
+                        var elementy = $(html).find('.list-group-item');
+
+                        elementy.each(function () {
+                            var content = $(this).html();
+                            var li = '<li class="list-group-item align-items-center">' + content + '</li>';
+                            ul.append(li);
+                        });
+
+                        // jQuery dla nowoutworzonych elementow
+                        // usuwanie - onClick
+                        $('a.usun').confirm({
+                            content: "Potwierdzasz ?",
+                            buttons: {
+                                usun: {
+                                    text: 'Usuń',
+                                    btnClass: 'btn-danger',
+                                    action: function (usunButton) {
+                                        location.href = this.$target.attr('href');
+                                    }
+                                },
+                                anuluj: {}
+                            }
+                        });
+
+                        // usuwanie - ajax
+                        $('.usunKategorie').click(function () { /*Zdefiniowanie zdarzenia inicjującego - kliknięcie przycisku wyślij*/
+
+                            /*Funkcja pobierająca wartość opcji z listy,
+                            która następnie zapisywana jest do zmiennej*/
+                            var wartosc = $("input[name='name']").val();
+                            var sciezka = $("input[name='serverPath']").val();
+
+                            $.ajax({
+                                type: "POST", /*Informacja o tym, że dane będą wysyłane*/
+                                url: sciezka + 'delete/' + wartosc, /*Informacja, o tym jaki plik będzie przy tym wykorzystywany*/
+                                data: {name: wartosc},
+                                /*Działania wykonywane w przypadku sukcesu*/
+                                success: function () {
+
+                                    $.ajax({
+                                        type: "GET",
+                                        url: sciezka,
+                                        dataType: "html",
+                                        //pomyślne wysłanie danych do skryptu
+                                        success: function (html) {
+                                            var ul = $('.list-group').empty();
+                                            //pobieramy węzły z dokumentu html
+                                            var elementy = $(html).find('.list-group-item');
+
+                                            elementy.each(function () {
+                                                var content = $(this).html();
+                                                var li = '<li class="list-group-item align-items-center">' + content + '</li>';
+                                                ul.append(li);
+                                            });
+
+                                            // jQuery dla nowoutworzonych elementow
+                                            $('a.usun').confirm({
+                                                content: "Potwierdzasz ?",
+                                                buttons: {
+                                                    usun: {
+                                                        text: 'Usuń',
+                                                        btnClass: 'btn-danger',
+                                                        action: function (usunButton) {
+                                                            location.href = this.$target.attr('href');
+                                                        }
+                                                    },
+                                                    anuluj: {}
+                                                }
+                                            });
+                                        },
+                                        //zakończenie połączenia niezależnie od wyniki
+                                        //błąd połączenia
+                                        error: function (blad) {
+                                            //console.log(blad)
+                                            $('.alert').show();
+                                        }
+                                    });
+
+                                },
+
+                                /*Działania wykonywane w przypadku błędu*/
+                                error: function (blad) {
+                                    alert("Wystąpił błąd");
+                                    console.log(blad);
+                                    /*Funkcja wyświetlająca informacje
+                                                           o ewentualnym błędzie w konsoli przeglądarki*/
+                                }
+                            });
+
+                        });
+                        // koniec jQuery dla nowych elementow
+                    },
+                    //zakończenie połączenia niezależnie od wyniki
+                    //błąd połączenia
+                    error: function (blad) {
+                        //console.log(blad)
+                        $('.alert').show();
+                    }
+                });
+
+            },
+
+            /*Działania wykonywane w przypadku błędu*/
+            error: function (blad) {
+                alert("Wystąpił błąd");
+                console.log(blad);
+                /*Funkcja wyświetlająca informacje
+                                   o ewentualnym błędzie w konsoli przeglądarki*/
+            }
+        });
+
+    });
+
+
     /**
      Własne metody do walidacji
      **/
