@@ -2,8 +2,17 @@
 <h1>Lista kategorii</h1>
 {if isset($allCats)}
 {if $allCats|@count === 0}
-<b>Brak kategorii w bazie!</b><br/><br/>
+<div class="brak-wynikow">
+    <b>Brak wyników w bazie!</b>
+</div>
+
+<ul class="list-group">
+    <li class="list-group-item align-items-center">
+    </li>
+</ul>
 {else}
+<div class="brak-wynikow">
+</div>
 <ul class="list-group">
     {foreach $allCats as $id => $name}
 
@@ -14,6 +23,8 @@
                 <div class="text-right">
                     <a class="btn btn-primary" href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/edit/{$id}">edycja</a>
                     <a class="usun btn btn-danger" data-title="Usuwanie kategorii"
+                       data-server-path="http://{$smarty.server.HTTP_HOST}{$subdir}categories/"
+                       data-id="{$id}"
                        href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/delete/{$id}">usuń</a>
                 </div>
             </div>

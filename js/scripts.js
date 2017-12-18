@@ -1,35 +1,104 @@
 $(document).ready(function () {
 
-    // Potwierdzenie usunięcia
+    /* Usuwanie danych z bazy */
 
-    $('a.usun').confirm({
-        content: "Potwierdzasz ?",
-        buttons: {
-            usun: {
-                text: 'Usuń',
-                btnClass: 'btn-danger',
-                action: function (usunButton) {
-                    location.href = this.$target.attr('href');
-                }
-            },
-            anuluj: {}
-        }
+    $('ul.list-group').on("mouseover", "a.usun", function (e) {
+
+        e.preventDefault();
+        $('a.usun').confirm({
+            content: "Potwierdzasz ?",
+            buttons: {
+                usun: {
+                    text: 'Usuń',
+                    btnClass: 'btn-danger',
+                    action: function (usunButton) {
+                        //location.href = this.$target.attr('href');
+
+                        // usuwanie (ajax) - start
+
+                        var wartosc = this.$target.attr('data-id');
+                        var sciezka = this.$target.attr('data-server-path');
+
+                        $.ajax({
+                            type: "POST", /* dane będą wysyłane */
+                            url: sciezka + 'delete/' + wartosc, /* jaki plik będzie przy tym wykorzystywany */
+                            data: {name: wartosc},
+                            /* Działania wykonywane w przypadku sukcesu */
+                            success: function () {
+
+                                $.ajax({
+                                    type: "GET",
+                                    url: sciezka,
+                                    dataType: "html",
+                                    // pomyślne wysłanie danych do skryptu
+                                    success: function (html) {
+                                        var brak_wynikow = false;
+                                        if ($.trim($(html).find('.list-group-item').html()) == '') {
+                                            brak_wynikow = true;
+                                        }
+
+                                        var ul = $('.list-group').empty();
+                                        //pobieramy węzły z dokumentu html
+                                        var elementy = $(html).find('.list-group-item');
+
+                                        elementy.each(function () {
+                                            var content = $(this).html();
+                                            var li = '<li class="list-group-item align-items-center">' + content + '</li>';
+                                            ul.append(li);
+                                        });
+
+                                        if (brak_wynikow) {
+                                            var div_brak_wynikow = $('.brak-wynikow').empty();
+                                            var element_brak_wynikow = $(html).find('.brak-wynikow');
+                                            var info = '<b>Brak wyników w bazie!</b>';
+                                            div_brak_wynikow.append(info);
+                                        }
+
+                                    },
+                                    //zakończenie połączenia niezależnie od wyniki
+                                    //błąd połączenia
+                                    error: function (blad) {
+                                        //console.log(blad)
+                                        $('.alert').show();
+                                    }
+                                });
+
+                            },
+
+                            /*Działania wykonywane w przypadku błędu*/
+                            error: function (blad) {
+                                alert("Wystąpił błąd");
+                                console.log(blad);
+                                /*Funkcja wyświetlająca informacje
+                                                   o ewentualnym błędzie w konsoli przeglądarki*/
+                            }
+                        });
+
+                        // usuwanie (ajax) - koniec
+                    }
+                },
+                anuluj: {}
+            }
+        });
+
     });
 
     /* Wysyłanie danych do bazy */
+
     $('#wyslij').click(function () { /* Zdefiniowanie zdarzenia inicjującego- kliknięcie przycisku wyślij */
 
-        // usuwanie wpisanego tekstu po kliknieciu
+        /*  wyczyszczenie formularza po kliknieciu */
+
         $('input:text').focus(
             function () {
                 $(this).val('');
             });
 
-        /*Funkcja pobierająca wartość opcji,
-        która następnie zapisywana jest do zmiennej*/
+        /* Pobieranie wartości opcji i zapisywanie ich do zmiennej */
+
         var wartosc = $("input[name='name']").val();
         var sciezka = $("input[name='serverPath']").val();
-        if (wartosc.length < 3)
+        if (wartosc.length < 3) // nazwa kategorii nie moze byc krótsza niż 3 znaki
             wartosc = null;
 
         $.ajax({
@@ -47,6 +116,12 @@ $(document).ready(function () {
                     dataType: "html",
                     //pomyślne wysłanie danych do skryptu
                     success: function (html) {
+
+                        var brak_wynikow = false;
+                        if ($.trim($(html).find('.list-group-item').html()) == '') {
+                            brak_wynikow = true;
+                        }
+
                         var ul = $('.list-group').empty();
                         //pobieramy węzły z dokumentu html
                         var elementy = $(html).find('.list-group-item');
@@ -57,20 +132,10 @@ $(document).ready(function () {
                             ul.append(li);
                         });
 
-                        // jQuery dla nowoutworzonych elementow
-                        $('a.usun').confirm({
-                            content: "Potwierdzasz ?",
-                            buttons: {
-                                usun: {
-                                    text: 'Usuń',
-                                    btnClass: 'btn-danger',
-                                    action: function (usunButton) {
-                                        location.href = this.$target.attr('href');
-                                    }
-                                },
-                                anuluj: {}
-                            }
-                        });
+                        if (!brak_wynikow) {
+                            var div_brak_wynikow = $('.brak-wynikow').empty();
+                        }
+
                     },
                     //zakończenie połączenia niezależnie od wyniki
                     //błąd połączenia
@@ -95,8 +160,8 @@ $(document).ready(function () {
 
 
     /* Usuwanie danych z bazy (Nieużywane) */
-    $('.usunKategorie').click(function () { /*Zdefiniowanie zdarzenia inicjującego
-    - kliknięcie przycisku wyślij*/
+
+    $('.usunKategorie').click(function () { /*Zdefiniowanie zdarzenia inicjującego - kliknięcie przycisku wyślij*/
 
         /*Funkcja pobierająca wartość opcji z listy,
         która następnie zapisywana jest do zmiennej*/

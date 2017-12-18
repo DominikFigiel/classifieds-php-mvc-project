@@ -2,9 +2,17 @@
 <h1>Lista użytkowników</h1>
 {if isset($allUsers)}
 {if $allUsers|@count === 0}
-<b>Brak użytkowników w bazie!</b><br/><br/>
+<div class="brak-wynikow">
+    <b>Brak wyników w bazie!</b>
+</div>
+<ul class="list-group">
+    <li class="list-group-item align-items-center">
+    </li>
+</ul>
 {else}
-<ul>
+<div class="brak-wynikow">
+</div>
+<ul class="list-group">
     {foreach $allUsers as $user}
     <li class="list-group-item align-items-center">
         <div class="card">
@@ -15,7 +23,9 @@
                     <a class="btn btn-primary"
                        href="http://{$smarty.server.HTTP_HOST}{$subdir}users/edit/{$user['id']}">edycja</a>
                     <a class="usun btn btn-danger" data-title="Usuwanie użytkownika"
-                       href="http://{$smarty.server.HTTP_HOST}{$subdir}users/delete/{$user['id']}">usuń</a>
+                       data-server-path="http://{$smarty.server.HTTP_HOST}{$subdir}users/"
+                       data-id="{$user['id']}"
+                       href="http://{$smarty.server.HTTP_HOST}{$subdir}users/delete/{$id}">usuń</a>
                 </div>
             </div>
         </div>
