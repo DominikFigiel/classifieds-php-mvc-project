@@ -50,7 +50,7 @@ class Classified extends Model
                 $polecenie = "SELECT classified.id, classified.title,classified.content,classified.price,classified.date, category.name, classified.city , user.login 
             FROM `classified` 
             INNER JOIN category ON category.id = classified.category_id 
-            INNER JOIN user ON user.id = classified.user_id  WHERE classified.title LIKE '%" . $id . "%' OR classified.content LIKE '%" . $id . "%' AND category.name LIKE '%" . $category . "%' ";
+            INNER JOIN user ON user.id = classified.user_id  WHERE (classified.title LIKE '%" . $id . "%' OR classified.content LIKE '%" . $id . "%') AND category.name LIKE '%" . $category . "%' ";
                 $stmt = $this->pdo->query($polecenie);
 
                 $classifieds = $stmt->fetchAll();

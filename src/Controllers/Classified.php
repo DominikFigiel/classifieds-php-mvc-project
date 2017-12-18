@@ -21,8 +21,6 @@ class Classified extends Controller
 
             if (isset($_POST['category']))
                 $category = $_POST['category'];
-            else
-                $category = 0;
 
             $view = $this->getView('Classified');
             if ($view)

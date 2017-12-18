@@ -21,11 +21,11 @@
                 <p>({$user['login']})</p>
                 <div class="text-right">
                     <a class="btn btn-primary"
-                       href="http://{$smarty.server.HTTP_HOST}{$subdir}users/edit/{$user['id']}">edycja</a>
+                       href="http://{$smarty.server.HTTP_HOST}{$subdir}users/edit/{$user['id']}">Edycja</a>
                     <a class="usun btn btn-danger" data-title="Usuwanie użytkownika"
                        data-server-path="http://{$smarty.server.HTTP_HOST}{$subdir}users/"
                        data-id="{$user['id']}"
-                       href="http://{$smarty.server.HTTP_HOST}{$subdir}users/delete/{$id}">usuń</a>
+                       href="http://{$smarty.server.HTTP_HOST}{$subdir}users/delete/{$id}">Usuń</a>
                 </div>
             </div>
         </div>

@@ -1,9 +1,10 @@
 {include file="header.html.php"}
+{$licznik=1}
 <div class="row">
     <div class="col-sm-12 col-md-12">
         <form action="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/search/" method="post">
             <div class="input-group classified-search">
-
+                <input type="hidden" name="serverPath" value="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/"/>
                 <input class="form-control" type="text" name="id" placeholder="Wyszukiwanie ogłoszenia..">
                 <select class="form-control" name="category">
                     <option value="">wszystkie kategorie</option>
@@ -12,7 +13,7 @@
                     {/foreach}
                 </select>
                 <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="submit">Szukaj</button>
+                            <button id="szukajOgloszen" class="btn btn-secondary" type="button">Szukaj</button>
                 </span>
             </div>
         </form>
@@ -69,6 +70,7 @@
                                   role="button">Wyświetl wszystkie ogłoszenia</a></p>
     </div>
 {else}
+    <div class="all-classifieds">
 {foreach $allClassifieds as $classified}
 <div class="card b-1 hover-shadow mb-20">
     <div class="media card-body">
@@ -94,13 +96,14 @@
         </div>
         <div class="card-hover-show">
             <a class="btn btn-xs fs-10 btn-bold btn-light btn-block-xs-only"
-               href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/edit/{$classified['id']}">edycja</a>
+               href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/edit/{$classified['id']}">Edycja</a>
             <a class="btn btn-xs fs-10 btn-bold btn-info disabled btn-block-xs-only" href="#">Dodano:
                 {$classified['date']|date_format:"%d/%m/%Y"}</a>
             <a class="btn btn-xs fs-10 btn-bold btn-primary btn-block-xs-only" href="#" data-toggle="modal"
                data-target="#modal-contact">Wyślij wiadomość</a>
             <form class="form-inline" action="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/search/"
                   method="post">
+                <input type="hidden" name="serverPath" value="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/"/>
                 <div class="form-group">
                     <input type="hidden" name="category" value="{$classified['name']}">
                 </div>
@@ -112,7 +115,7 @@
     </footer>
 </div>
 {/foreach}
-
+    </div>
 {/if}
 {/if}
 {if isset($error)}

@@ -39,7 +39,7 @@
     <div class="alert alert-danger collapse" role="alert"></div>
 
     <div class="form-group text-right">
-        <a class="usun btn btn-danger" data-title="Usuwanie ogłoszenia"
+        <a class="usun-ogloszenie btn btn-danger" data-title="Usuwanie ogłoszenia"
            href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/delete/{$classified['id']}">Usuń</a>
         <input class="btn btn-primary" type="submit" value="Aktualizuj"/>
         <a class="btn btn-secondary" href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/"
