@@ -2,66 +2,50 @@ $(document).ready(function () {
 
     /* Usuwanie danych z bazy (usuwanie kategorii, usuwanie użytkownika) */
 
-    $('ul.list-group').on("mouseover", "a.usun", function (e) {
+    $('ul.list-group').on("mouseover", "a.delete", function (e) {
 
         e.preventDefault();
-        $('a.usun').confirm({
+        $('a.delete').confirm({
             content: "Potwierdzasz ?",
             buttons: {
-                usun: {
+                delete: {
                     text: 'Usuń',
                     btnClass: 'btn-danger',
-                    action: function (usunButton) {
+                    action: function (deleteButton) {
                         //location.href = this.$target.attr('href');
 
                         // usuwanie (ajax) - start
 
-                        var wartosc = this.$target.attr('data-id');
-                        var sciezka = this.$target.attr('data-server-path');
+                        var value = this.$target.attr('data-id');
+                        var server_path = this.$target.attr('data-server-path');
 
                         $.ajax({
                             type: "POST", /* dane będą wysyłane */
-                            url: sciezka + 'delete/' + wartosc, /* jaki plik będzie przy tym wykorzystywany */
-                            data: {name: wartosc},
+                            url: server_path + 'delete/' + value, /* jaki plik będzie przy tym wykorzystywany */
+                            data: {name: value},
+                            dataType: "html",
                             /* Działania wykonywane w przypadku sukcesu */
-                            success: function () {
-
-                                $.ajax({
-                                    type: "GET",
-                                    url: sciezka,
-                                    dataType: "html",
-                                    // pomyślne wysłanie danych do skryptu
-                                    success: function (html) {
-                                        var brak_wynikow = false;
+                            success: function (html) {
+                                var no_results = false;
                                         if ($.trim($(html).find('.list-group-item').html()) == '') {
-                                            brak_wynikow = true;
+                                            no_results = true;
                                         }
 
                                         var ul = $('.list-group').empty();
                                         //pobieramy węzły z dokumentu html
-                                        var elementy = $(html).find('.list-group-item');
+                                var elements = $(html).find('.list-group-item');
 
-                                        elementy.each(function () {
+                                elements.each(function () {
                                             var content = $(this).html();
                                             var li = '<li class="list-group-item align-items-center">' + content + '</li>';
                                             ul.append(li);
                                         });
 
-                                        if (brak_wynikow) {
-                                            var div_brak_wynikow = $('.brak-wynikow').empty();
-                                            var element_brak_wynikow = $(html).find('.brak-wynikow');
+                                if (no_results) {
+                                    var div_no_results = $('.no-results').empty();
                                             var info = '<b>Brak wyników w bazie!</b>';
-                                            div_brak_wynikow.append(info);
+                                    div_no_results.append(info);
                                         }
-
-                                    },
-                                    //zakończenie połączenia niezależnie od wyniki
-                                    //błąd połączenia
-                                    error: function (blad) {
-                                        //console.log(blad)
-                                        $('.alert').show();
-                                    }
-                                });
 
                             },
 
@@ -85,7 +69,7 @@ $(document).ready(function () {
 
     /* Usuwanie danych z bazy (usuwanie ogłoszeń) */
 
-    $('a.usun-ogloszenie').confirm({
+    $('a.classified-delete').confirm({
         content: "Potwierdzasz ?",
         buttons: {
             usun: {
@@ -101,42 +85,41 @@ $(document).ready(function () {
 
     /* Pobieranie wynikow wyszukiwania z bazy */
 
-    $('#szukajOgloszen').click(function () {
-        var sciezka = $("input[name='serverPath']").val();
-        var kategoria = $("select[name='category']").val();
-        var tresc = $("input[name='id']").val();
+    $('#classified-search').click(function () {
+        var server_path = $("input[name='serverPath']").val();
+        var category = $("select[name='category']").val();
+        var content = $("input[name='id']").val();
 
         $.ajax({
             type: "POST",
-            url: sciezka + 'search',
+            url: server_path + 'search',
             dataType: 'html',
-            data: {id: tresc, category: kategoria},
+            data: {id: content, category: category},
 
             /*Działania wykonywane w przypadku sukcesu*/
             success: function (html) {
-                var brak_wynikow = false;
+                var no_results = false;
                 if ($.trim($(html).find('.card').html()) == '') {
-                    brak_wynikow = true;
+                    no_results = true;
                 }
 
                 var ul = $('.all-classifieds').empty();
                 //pobieramy węzły z dokumentu html
-                var elementy = $(html).find('.card');
+                var elements = $(html).find('.card');
 
-                elementy.each(function () {
+                elements.each(function () {
                     var content = $(this).html();
                     var li = '<div class="card b-1 hover-shadow mb-20">' + content + '</div>';
                     ul.append(li);
                 });
 
-                if (brak_wynikow) {
-                    var div_brak_wynikow = $('.all-classifieds').empty();
-                    var element_brak_wynikow = $(html).find('.all-classifieds');
+                if (no_results) {
+                    var div_no_results = $('.all-classifieds').empty();
                     var info = '<p><strong>Nie znaleziono ogłoszeń spełniających wybrane kryteria.</strong></p>' +
                         '<p class="text-center">' +
-                        '<a class="btn btn-primary" href="' + sciezka + '" role="button">' +
+                        '<a class="btn btn-primary" href="' + server_path + '" role="button">' +
                         'Wyświetl wszystkie ogłoszenia</a></p>';
-                    div_brak_wynikow.append(info);
+                    div_no_results.append(info);
                 }
 
             },
@@ -145,8 +128,7 @@ $(document).ready(function () {
             error: function (blad) {
                 alert("Wystąpił błąd");
                 console.log(blad);
-                /*Funkcja wyświetlająca informacje
-                                   o ewentualnym błędzie w konsoli przeglądarki*/
+                /*Funkcja wyświetlająca informacje o ewentualnym błędzie w konsoli przeglądarki*/
             }
         });
 
@@ -155,7 +137,7 @@ $(document).ready(function () {
 
     /* Wysyłanie danych do bazy (dodawanie kategorii, dodawanie użytkownika) */
 
-    $('#wyslij').click(function () { /* Zdefiniowanie zdarzenia inicjującego- kliknięcie przycisku wyślij */
+    $('#submit').click(function () { /* Zdefiniowanie zdarzenia inicjującego- kliknięcie przycisku wyślij */
 
         /*  wyczyszczenie formularza po kliknieciu */
 
@@ -166,63 +148,45 @@ $(document).ready(function () {
 
         /* Pobieranie wartości opcji i zapisywanie ich do zmiennej */
 
-        var wartosc = $("input[name='name']").val();
-        var sciezka = $("input[name='serverPath']").val();
-        if (wartosc.length < 3) // nazwa kategorii nie moze byc krótsza niż 3 znaki
-            wartosc = null;
+        var value = $("input[name='name']").val();
+        var server_path = $("input[name='serverPath']").val();
+        if (value.length < 3) // nazwa kategorii nie moze byc krótsza niż 3 znaki
+            value = null;
 
         $.ajax({
             type: "POST", /*Informacja o tym, że dane będą wysyłane*/
-            url: sciezka + 'insert', /*Informacja, o tym jaki plik będzie przy tym wykorzystywany*/
-            data: {name: wartosc}, /*Zdefiniowanie jakie dane będą wysyłane na zasadzie
+            url: server_path + 'insert', /*Informacja, o tym jaki plik będzie przy tym wykorzystywany*/
+            data: {name: value}, /*Zdefiniowanie jakie dane będą wysyłane na zasadzie
             pary klucz-wartość np: name=NazwaKategorii*/
+            dataType: "html",
 
             /*Działania wykonywane w przypadku sukcesu*/
-            success: function () {
+            success: function (html) {
+                var no_results = false;
+                if ($.trim($(html).find('.list-group-item').html()) == '') {
+                    no_results = true;
+                }
 
-                $.ajax({
-                    type: "GET",
-                    url: sciezka,
-                    dataType: "html",
-                    //pomyślne wysłanie danych do skryptu
-                    success: function (html) {
+                var ul = $('.list-group').empty();
+                //pobieramy węzły z dokumentu html
+                var elements = $(html).find('.list-group-item');
 
-                        var brak_wynikow = false;
-                        if ($.trim($(html).find('.list-group-item').html()) == '') {
-                            brak_wynikow = true;
-                        }
-
-                        var ul = $('.list-group').empty();
-                        //pobieramy węzły z dokumentu html
-                        var elementy = $(html).find('.list-group-item');
-
-                        elementy.each(function () {
-                            var content = $(this).html();
-                            var li = '<li class="list-group-item align-items-center">' + content + '</li>';
-                            ul.append(li);
-                        });
-
-                        if (!brak_wynikow) {
-                            var div_brak_wynikow = $('.brak-wynikow').empty();
-                        }
-
-                    },
-                    //zakończenie połączenia niezależnie od wyniki
-                    //błąd połączenia
-                    error: function (blad) {
-                        //console.log(blad)
-                        $('.alert').show();
-                    }
+                elements.each(function () {
+                    var content = $(this).html();
+                    var li = '<li class="list-group-item align-items-center">' + content + '</li>';
+                    ul.append(li);
                 });
 
+                if (!no_results) {
+                    var div_brak_wynikow = $('.no-results').empty();
+                }
             },
 
             /*Działania wykonywane w przypadku błędu*/
             error: function (blad) {
                 alert("Wystąpił błąd");
                 console.log(blad);
-                /*Funkcja wyświetlająca informacje
-                                   o ewentualnym błędzie w konsoli przeglądarki*/
+                /*Funkcja wyświetlająca informacje o ewentualnym błędzie w konsoli przeglądarki*/
             }
         });
 

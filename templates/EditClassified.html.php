@@ -5,8 +5,8 @@
 {foreach $oneClassified as $classified}
 
 <form id="form" action="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/update" method="post">
-        <input type="hidden" name="id" value="{$classified['id']}"/>
-        <input type="hidden" name="user_id" value="{$classified['user_id']}" readonly/><br/>
+    <input type="hidden" name="id" value="{$classified['id']}"/>
+    <input type="hidden" name="user_id" value="{$classified['user_id']}" readonly/><br/>
     <div class="form-group">
         <label>Kategoria:</label>
         <select class="form-control" name="category_id">
@@ -39,7 +39,7 @@
     <div class="alert alert-danger collapse" role="alert"></div>
 
     <div class="form-group text-right">
-        <a class="usun-ogloszenie btn btn-danger" data-title="Usuwanie ogłoszenia"
+        <a class="classified-delete btn btn-danger" data-title="Usuwanie ogłoszenia"
            href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/delete/{$classified['id']}">Usuń</a>
         <input class="btn btn-primary" type="submit" value="Aktualizuj"/>
         <a class="btn btn-secondary" href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/"
@@ -53,4 +53,5 @@
 {if isset($error)}
 <strong>{$error}</strong>
 {/if}
+
 {include file="footer.html.php"}

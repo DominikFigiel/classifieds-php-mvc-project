@@ -10,7 +10,7 @@
     </li>
 </ul>
 {else}
-<div class="brak-wynikow">
+<div class="no-results">
 </div>
 <ul class="list-group">
     {foreach $allUsers as $user}
@@ -22,7 +22,7 @@
                 <div class="text-right">
                     <a class="btn btn-primary"
                        href="http://{$smarty.server.HTTP_HOST}{$subdir}users/edit/{$user['id']}">Edycja</a>
-                    <a class="usun btn btn-danger" data-title="Usuwanie użytkownika"
+                    <a class="delete btn btn-danger" data-title="Usuwanie użytkownika"
                        data-server-path="http://{$smarty.server.HTTP_HOST}{$subdir}users/"
                        data-id="{$user['id']}"
                        href="http://{$smarty.server.HTTP_HOST}{$subdir}users/delete/{$id}">Usuń</a>
@@ -32,7 +32,6 @@
     </li>
     {/foreach}
 </ul>
-
 {/if}
 {/if}
 {if isset($error)}

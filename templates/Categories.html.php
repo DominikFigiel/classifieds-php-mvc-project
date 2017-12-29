@@ -5,24 +5,22 @@
 <div class="brak-wynikow">
     <b>Brak wyników w bazie!</b>
 </div>
-
 <ul class="list-group">
     <li class="list-group-item align-items-center">
     </li>
 </ul>
 {else}
-<div class="brak-wynikow">
+<div class="no-results">
 </div>
 <ul class="list-group">
     {foreach $allCats as $id => $name}
-
     <li class="list-group-item align-items-center">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">{$name}</h4>
                 <div class="text-right">
                     <a class="btn btn-primary" href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/edit/{$id}">Edycja</a>
-                    <a class="usun btn btn-danger" data-title="Usuwanie kategorii"
+                    <a class="delete btn btn-danger" data-title="Usuwanie kategorii"
                        data-server-path="http://{$smarty.server.HTTP_HOST}{$subdir}categories/"
                        data-id="{$id}"
                        href="http://{$smarty.server.HTTP_HOST}{$subdir}categories/delete/{$id}">Usuń</a>
@@ -39,10 +37,9 @@
 <strong>{$error}</strong>
 {/if}
 <p>
-    <button class="btn btn-primary btn-block" type="button" data-toggle="collapse"
-            data-target="#categoryCollapse" aria-expanded="false" aria-controls="collapseExample">
-        Dodaj
-        kategorię
+    <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#categoryCollapse"
+            aria-expanded="false" aria-controls="collapseExample">
+        Dodaj kategorię
     </button>
 </p>
 <div class="collapse" id="categoryCollapse">
