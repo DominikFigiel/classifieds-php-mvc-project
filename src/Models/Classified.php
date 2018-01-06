@@ -19,7 +19,7 @@ class Classified extends Model
         try {
             //$stmt = $this->pdo->query('SELECT * FROM `'.DB::$tableClassified.'`');
             $stmt = $this->pdo->
-            query('SELECT classified.id, classified.title,classified.content,classified.price,classified.date, category.name, classified.city , user.login 
+            query('SELECT classified.id, classified.user_id, classified.title,classified.content,classified.price,classified.date, category.name, classified.city , user.login 
             FROM `classified` 
             INNER JOIN category ON category.id = classified.category_id 
             INNER JOIN user ON user.id = classified.user_id');
@@ -31,6 +31,35 @@ class Classified extends Model
         } catch (\PDOException $e) {
             $data['error'] = \Config\Database\DBErrorName::$query;
         }
+        return $data;
+    }
+
+    public function getAllByUserId($id)
+    {
+        if ($this->pdo === null) {
+            $data['error'] = \Config\Database\DBErrorName::$connection;
+            return $data;
+        }
+        $data = array();
+        $data['classifieds'] = array();
+
+        try {
+            //$stmt = $this->pdo->query('SELECT * FROM `'.DB::$tableClassified.'`');
+            $polecenie = "
+        SELECT classified.id, classified.user_id, classified.title,classified.content,classified.price,classified.date, category.name, classified.city , user.login 
+        FROM `classified` 
+        INNER JOIN category ON category.id = classified.category_id 
+        INNER JOIN user ON user.id = classified.user_id  WHERE (classified.user_id = '" . $id . "')";
+            $stmt = $this->pdo->query($polecenie);
+
+            $classifieds = $stmt->fetchAll();
+            $stmt->closeCursor();
+            if ($classifieds && !empty($classifieds))
+                $data['classifieds'] = $classifieds;
+        } catch (\PDOException $e) {
+            $data['error'] = \Config\Database\DBErrorName::$query;
+        }
+
         return $data;
     }
 
@@ -47,7 +76,7 @@ class Classified extends Model
 
             try {
                 //$stmt = $this->pdo->query('SELECT * FROM `'.DB::$tableClassified.'`');
-                $polecenie = "SELECT classified.id, classified.title,classified.content,classified.price,classified.date, category.name, classified.city , user.login 
+                $polecenie = "SELECT classified.id, classified.user_id, classified.title,classified.content,classified.price,classified.date, category.name, classified.city , user.login 
             FROM `classified` 
             INNER JOIN category ON category.id = classified.category_id 
             INNER JOIN user ON user.id = classified.user_id  WHERE (classified.title LIKE '%" . $id . "%' OR classified.content LIKE '%" . $id . "%') AND category.name LIKE '%" . $category . "%' ";
@@ -63,7 +92,7 @@ class Classified extends Model
         } else {
             try {
                 //$stmt = $this->pdo->query('SELECT * FROM `'.DB::$tableClassified.'`');
-                $polecenie = "SELECT classified.id, classified.title,classified.content,classified.price,classified.date, category.name, classified.city , user.login 
+                $polecenie = "SELECT classified.id, classified.user_id, classified.title,classified.content,classified.price,classified.date, category.name, classified.city , user.login 
             FROM `classified` 
             INNER JOIN category ON category.id = classified.category_id 
             INNER JOIN user ON user.id = classified.user_id  WHERE category.name LIKE '%" . $category . "%' ";

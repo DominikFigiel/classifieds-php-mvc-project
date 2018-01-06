@@ -14,6 +14,18 @@ class Classified extends Controller
             $this->redirect('errors/404.html');
     }
 
+    public function indexOfUsersClassifieds($id = NULL)
+    {
+        $view = $this->getView('Classified');
+        if ($view) {
+            if ($id != NULL)
+                $view->indexOfUsersClassifieds($id);
+            else
+                $view->indexOfUsersClassifieds();
+        } else
+            $this->redirect('errors/404.html');
+    }
+
     public function search()
     {
         if (isset($_POST['id']) && $_POST['id'] != null) {
@@ -46,6 +58,9 @@ class Classified extends Controller
 
     public function add()
     {
+        $accessController = new \Controllers\Access();
+        $accessController->islogin();
+
         $view = $this->getView('Classified');
         if ($view)
             $view->add();
@@ -55,6 +70,22 @@ class Classified extends Controller
 
     public function edit($id = null)
     {
+        $accessController = new \Controllers\Access();
+        $accessController->islogin();
+
+        $modelUser = $this->getModel('User');
+        $user_id = $modelUser->getIdByLogin(\Tools\Access::get(\Tools\Access::$login));
+
+        $model = $this->getModel('Classified');
+        if ($model) {
+            $data = $model->getOne($id);
+            if (isset($data['classifieds'])) {
+                if ($data['classifieds'][0]['user_id'] != $user_id) {
+                    $this->redirect('classifieds/');
+                }
+            }
+        }
+
         if ($id !== null) {
             $view = $this->getView('Classified');
             if ($view)
@@ -68,10 +99,20 @@ class Classified extends Controller
     //dodaje do bazy ogloszenie
     public function insert()
     {
+        $accessController = new \Controllers\Access();
+        $accessController->islogin();
+
         //za operację na bazie danych odpowiedzialny jest model
         //tworzymy obiekt modelu i zlecamy dodanie ogloszenia
         $model = $this->getModel('Classified');
         if ($model) {
+            $modelUser = $this->getModel('User');
+            $user_id = $modelUser->getIdByLogin(\Tools\Access::get(\Tools\Access::$login));
+
+            // sprawdzamy, czy id z formularza jest zgodne z id zalogowanego użytkownika
+            if ($_POST['user_id'] != $user_id)
+                $_POST['user_id'] = $user_id;
+
             $model->insert($_POST['category_id'], $_POST['user_id'], $_POST['title'], $_POST['content'], $_POST['price'], $_POST['city']);
             $this->redirect('classifieds/');
         } else
@@ -80,6 +121,9 @@ class Classified extends Controller
 
     public function update()
     {
+        $accessController = new \Controllers\Access();
+        $accessController->islogin();
+
         $model = $this->getModel('Classified');
         $data = $model->update($_POST['id'], $_POST['category_id'], $_POST['title'], $_POST['content'], $_POST['price'], $_POST['city']);
         if (isset($data['error']))
@@ -91,6 +135,9 @@ class Classified extends Controller
 
     public function delete($id)
     {
+        $accessController = new \Controllers\Access();
+        $accessController->islogin();
+
         $model = $this->getModel('Classified');
         $data = $model->delete($id);
         if (isset($data['error']))

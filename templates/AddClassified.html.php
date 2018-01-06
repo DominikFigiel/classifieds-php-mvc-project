@@ -3,7 +3,11 @@
 <h1>Dodaj ogłoszenie</h1>
 <form id="form" action="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/insert" method="post">
     <div class="form-group">
-        <input class="form-control sr-only" type="text" name="user_id" value="1" readonly/><br/>
+        {if isset($user_login)}
+        <input class="form-control sr-only" type="text" name="user_id" value="{$user_id}" readonly/><br/>
+        {else}
+        <input class="form-control sr-only" type="text" name="user_id" value="0" readonly/><br/>
+        {/if}
     </div>
     <div class="form-group">
         <label>Kategoria:</label>

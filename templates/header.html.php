@@ -21,17 +21,42 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+            {if isset($user_id)}
+            {if $user_id == 1}
             <li class="nav-item"><a class="nav-link"
                                     href="http://{$smarty.server.HTTP_HOST}{$subdir}users">Użytkownicy</a></li>
             <li class="nav-item"><a class="nav-link" href="http://{$smarty.server.HTTP_HOST}{$subdir}categories">Kategorie</a>
             </li>
+            {/if}
+            {/if}
             <li class="nav-item"><a class="nav-link" href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds">Ogłoszenia</a>
             </li>
-            <li class="nav-item"><a class="nav-link disabled" href="#" disabled>Logowanie</a></li>
-            <li class="nav-item"><a class="nav-link disabled" href="#">Rejestracja</a></li>
         </ul>
-        <a class="btn btn-primary" href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/add"
-           role="button">Dodaj ogłoszenie</a>
+        <ul class="navbar-nav">
+            {if !isset($user_login)}
+            <li class="nav-item">
+                <a class="btn btn-secondary m-1" href="http://{$smarty.server.HTTP_HOST}{$subdir}access/logform">Zaloguj
+                    się</a>
+            </li>
+            {else}
+            <div class="dropdown">
+                <button class="btn btn-secondary m-1 dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Zalogowano jako: {$user_login}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/user">Moje
+                        ogłoszenia</a>
+                    <!--<a class="dropdown-item" href="#">Wiadomości</a>-->
+                    <a class="dropdown-item" href="http://{$smarty.server.HTTP_HOST}{$subdir}access/logout">Wyloguj</a>
+                </div>
+            </div>
+            {/if}
+            <li class="nav-item">
+                <a class="btn btn-primary m-1" href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/add"
+                   role="button">Dodaj ogłoszenie</a>
+            </li>
+        </ul>
     </div>
 </nav>
 

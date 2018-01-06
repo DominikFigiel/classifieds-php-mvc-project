@@ -26,3 +26,12 @@ RewriteRule ^classifieds/insert/?$ index.php?controller=Classified&action=insert
 RewriteRule ^classifieds/edit/(\d+)/?$ index.php?controller=Classified&action=edit&id=$1 [L]
 RewriteRule ^classifieds/update/?$ index.php?controller=Classified&action=update [L]
 RewriteRule ^classifieds/delete/(\d+)/?$ index.php?controller=Classified&action=delete&id=$1 [L]
+RewriteRule ^classifieds/user/?$ index.php?controller=Classified&action=indexOfUsersClassifieds [L]
+RewriteRule ^classifieds/user/(\d+)/?$ index.php?controller=Classified&action=indexOfUsersClassifieds&id=$1 [L]
+
+RewriteRule ^access/logform/?$ index.php?controller=Access&action=logform [L]
+RewriteRule ^access/login/?$ index.php?controller=Access&action=login [L]
+RewriteRule ^access/logout/?$ index.php?controller=Access&action=logout [L]
+RewriteRule ^access/regform/?$ index.php?controller=User&action=add [L]
+#RewriteRule ^access/myclassifieds/?$ index.php?controller=Classified&action=indexOfUsersClassifieds [L]
+#RewriteRule ^access/myclassifieds/(\d+)/?$ index.php?controller=Classified&action=indexOfUsersClassifieds&id=$1 [L]

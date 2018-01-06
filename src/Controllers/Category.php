@@ -7,6 +7,13 @@ class Category extends Controller
 
     public function index()
     {
+        $accessController = new \Controllers\Access();
+        $accessController->islogin();
+        $modelUser = $this->getModel('User');
+        $user_id = $modelUser->getIdByLogin(\Tools\Access::get(\Tools\Access::$login));
+        if ($user_id != 1)
+            $this->redirect('access/logform');
+        
         //tworzy obiekt widoku i zleca wyświetlenie
         //wszystkich kategorii w widoku
         $view = $this->getView('Category');

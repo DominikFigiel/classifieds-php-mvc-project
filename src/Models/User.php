@@ -57,6 +57,64 @@ class User extends Model
         return $data;
     }
 
+    public function getIdByLogin($login)
+    {
+        if ($this->pdo === null) {
+            $data['error'] = \Config\Database\DBErrorName::$connection;
+            return $data;
+        }
+        if ($login === null) {
+            $data['error'] = \Config\Database\DBErrorName::$nomatch;
+            return data;
+        }
+        $data = array();
+        $data['users'] = array();
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM `' . \Config\Database\DBConfig::$tableUser . '` WHERE `' . \Config\Database\DBConfig\User::$login . '`=:login');
+            $stmt->bindValue(':login', $login, PDO::PARAM_STR);
+            $result = $stmt->execute();
+            $users = $stmt->fetchAll();
+            $stmt->closeCursor();
+            if ($users && !empty($users))
+                $data['users'] = $users;
+            else
+                $data['error'] = \Config\Database\DBErrorName::$nomatch;
+        } catch (\PDOException $e) {
+            var_dump($e);
+            $data['error'] = \Config\Database\DBErrorName::$query;
+        }
+        return $data['users'][0]['id'];
+    }
+
+    public function getOneByLogin($login)
+    {
+        if ($this->pdo === null) {
+            $data['error'] = \Config\Database\DBErrorName::$connection;
+            return $data;
+        }
+        if ($login === null) {
+            $data['error'] = \Config\Database\DBErrorName::$nomatch;
+            return data;
+        }
+        $data = array();
+        $data['users'] = array();
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM `' . \Config\Database\DBConfig::$tableUser . '` WHERE `' . \Config\Database\DBConfig\User::$login . '`=:login');
+            $stmt->bindValue(':login', $login, PDO::PARAM_STR);
+            $result = $stmt->execute();
+            $users = $stmt->fetchAll();
+            $stmt->closeCursor();
+            if ($users && !empty($users))
+                $data['users'] = $users;
+            else
+                $data['error'] = \Config\Database\DBErrorName::$nomatch;
+        } catch (\PDOException $e) {
+            var_dump($e);
+            $data['error'] = \Config\Database\DBErrorName::$query;
+        }
+        return $data;
+    }
+
     public function insert($name, $surname, $login, $password)
     {
         if ($this->pdo === null) {

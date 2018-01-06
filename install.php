@@ -47,7 +47,7 @@
         `'.DB\User::$name.'` VARCHAR(30) NOT NULL,
         `'.DB\User::$surname.'` VARCHAR(30) NOT NULL,
         `'.DB\User::$login.'` VARCHAR(30) NOT NULL,
-        `'.DB\User::$password.'` VARCHAR(40) NOT NULL,
+        `' . DB\User::$password . '` VARCHAR(32) NOT NULL,
         PRIMARY KEY('.DB\User::$id.')) ENGINE=InnoDB;';
         try
         {

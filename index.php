@@ -9,6 +9,7 @@ Config\Database\DBConnection::setDBConnection(
 
 //Inicjalizacja sesji anonimowej
 \Tools\Session::initialize();
+
 //Kontroler/akcja/parametr_id
 if(isset($_GET['controller']))
     $controller = $_GET['controller'];

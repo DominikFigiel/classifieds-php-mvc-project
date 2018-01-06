@@ -2,61 +2,13 @@
 {$licznik=1}
 <div class="row">
     <div class="col-sm-12 col-md-12">
-        <form action="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/search/" method="post">
-            <div class="input-group classified-search">
-                <input type="hidden" name="serverPath" value="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/"/>
-                <input class="form-control" type="text" name="id" placeholder="Wyszukiwanie ogłoszenia..">
-                <select class="form-control" name="category">
-                    <option value="">wszystkie kategorie</option>
-                    {foreach $allCats as $id => $name}
-                    <option value="{$name}">{$name}</option>
-                    {/foreach}
-                </select>
-                <span class="input-group-btn">
-                            <button id="classified-search" class="btn btn-secondary" type="button">Szukaj</button>
-                </span>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-12 col-md-12">
-        <p>
-            <button class="btn btn-outline-primary btn-block" type="button" data-toggle="collapse"
-                    data-target="#categoryCollapse" aria-expanded="false" aria-controls="collapseExample">
-                Wybór kategorii
-            </button>
-        </p>
-    </div>
-</div>
-<div class="collapse" id="categoryCollapse">
-    <div class="jumbotron">
-        <h1 class="display-3">Wybierz kategorię</h1>
-        <p class="lead">Wyświetl wszystkie ogłoszenia z wybranej kategorii.</p>
-        <hr class="my-4">
-        <div class="row">
-            <div class="col-4">
-                <form action="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/search/" method="post">
-                    <div class="form-group">
-                        <input type="hidden" name="category" value="">
-                        <button class="btn fs-6 btn-bold btn btn-light btn-block  m-1" type="submit">wszystkie
-                            kategorie
-                        </button>
-                    </div>
-
-                </form>
-            </div>
-            {foreach $allCats as $id => $name}
-            <div class="col-4">
-                <form action="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/search/" method="post">
-                    <div class="form-group">
-                        <input type="hidden" name="category" value="{$name}">
-                        <button class="btn fs-6 btn-bold btn btn-light btn-block  m-1" type="submit">{$name}</button>
-                    </div>
-                </form>
-            </div>
-            {/foreach}
-        </div>
+        {if isset($user_id)}
+        {if $user_id == $id}
+        <h5>Twoje ogłoszenia:</h5>
+        {else}
+        <h5>Wszystkie ogłoszenia tego użytkownika:</h5>
+        {/if}
+        {/if}
     </div>
 </div>
 
@@ -121,9 +73,9 @@
         {/foreach}
     </div>
     {/if}
-{/if}
-{if isset($error)}
+    {/if}
+    {if isset($error)}
     <strong>{$error}</strong>
-{/if}
+    {/if}
 
-{include file="footer.html.php"}
+    {include file="footer.html.php"}

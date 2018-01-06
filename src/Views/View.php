@@ -12,6 +12,15 @@ abstract class View
     {
         $this->smarty = new Smarty();
         $this->set('subdir', '/' . \Config\Website\Config::$subdir);
+        if (\Tools\Access::islogin() === true) {
+            $this->set('login', true);
+            $this->set('user_login', \Tools\Access::get(\Tools\Access::$login));
+
+            $model = $this->getModel('User');
+            $user_id = $model->getIdByLogin(\Tools\Access::get(\Tools\Access::$login));
+            $this->set('user_id', $user_id);
+        }
+
     }
 
     //załadowanie modelu

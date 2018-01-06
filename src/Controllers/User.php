@@ -7,6 +7,13 @@ class User extends Controller
 
     public function index()
     {
+        $accessController = new \Controllers\Access();
+        $accessController->islogin();
+        $modelUser = $this->getModel('User');
+        $user_id = $modelUser->getIdByLogin(\Tools\Access::get(\Tools\Access::$login));
+        if ($user_id != 1)
+            $this->redirect('access/logform');
+
         //tworzy obiekt widoku i zleca wyświetlenie
         //wszystkich użytkowników w widoku
         $view = $this->getView('User');
@@ -25,6 +32,9 @@ class User extends Controller
 
     public function edit($id = null)
     {
+        $accessController = new \Controllers\Access();
+        $accessController->islogin();
+
         if ($id !== null) {
             $view = $this->getView('User');
             if ($view)
@@ -43,13 +53,16 @@ class User extends Controller
         $model = $this->getModel('User');
         if ($model) {
             $model->insert($_POST['name'], $_POST['surname'], $_POST['login'], $_POST['password']);
-            $this->redirect('users/');
+            $this->redirect('access/logform');
         } else
             $this->redirect('errors/404.html');
     }
 
     public function update()
     {
+        $accessController = new \Controllers\Access();
+        $accessController->islogin();
+
         $model = $this->getModel('User');
         $data = $model->update($_POST['id'], $_POST['name'], $_POST['surname'], $_POST['login'], $_POST['password']);
         if (isset($data['error']))
@@ -61,6 +74,9 @@ class User extends Controller
 
     public function delete($id)
     {
+        $accessController = new \Controllers\Access();
+        $accessController->islogin();
+
         $model = $this->getModel('User');
         $data = $model->delete($id);
         if (isset($data['error']))
@@ -72,6 +88,9 @@ class User extends Controller
 
     public function getAll()
     {
+        $accessController = new \Controllers\Access();
+        $accessController->islogin();
+
         $view = $this->getView('User');
         $data = null;
         if (\Tools\Session::is('message'))

@@ -20,6 +20,9 @@
                 <h4 class="card-title">{$user['name']} {$user['surname']}</h4>
                 <p>({$user['login']})</p>
                 <div class="text-right">
+                    <a class="btn btn-secondary"
+                       href="http://{$smarty.server.HTTP_HOST}{$subdir}classifieds/user/{$user['id']}">Ogłoszenia
+                        użytkownika</a>
                     <a class="btn btn-primary"
                        href="http://{$smarty.server.HTTP_HOST}{$subdir}users/edit/{$user['id']}">Edycja</a>
                     <a class="delete btn btn-danger" data-title="Usuwanie użytkownika"
